@@ -57,10 +57,10 @@ class MessageForm(Form):
         model = Message
 
 
+@login_required
 def chief(request):
     dialog_list = Dialog.objects.filter(message__read=True).distinct()
     messages_not_view = Message.objects.filter(read=False).distinct()
-    request.session.cycle_key()
     return render(request, "chat_list.html", locals())
 
 
