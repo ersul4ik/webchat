@@ -1,0 +1,19 @@
+html,body{
+    height: 100%;
+    max-height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #edeef0;
+}
+{
+    display: none; // скрываем блок
+}
+.not-view{
+    margin-top: 5%;
+}
+.sender_user{
+  text-align: right;
+}
+.article
+{
+    font-family: 'Lobster', cursive;
+}

@@ -1,0 +1,28 @@
+html,body{
+    height: 100%;
+    max-height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+.top-container{
+    padding: 10%;
+}
+.title{
+    text-align: center;
+    font-weight: 100;
+    line-height: 50px;
+    color: #265a88;
+}
+.general-container{
+    background: url('../img/04.png');
+    height: 100%;
+}
+.general-container form{
+    margin-top: 5%;
+}
+.orange-btn{
+    background-color: #265a88;
+    border: none;
+}
+.orange-btn:hover{
+    background-color: #46b8da;
+}
