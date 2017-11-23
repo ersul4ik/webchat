@@ -1,6 +1,14 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Чаты</title>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/chief.css' %}" rel="stylesheet">
+</head>
+<body>
     <div class="row login-form">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
@@ -33,4 +41,8 @@
             </div>
         </div>
     </div>
-{% endblock %}
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script src="{% static 'js/chief.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+</body>
+</html>

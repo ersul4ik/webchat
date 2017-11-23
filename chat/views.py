@@ -3,13 +3,53 @@ from __future__ import unicode_literals
 
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
 from django.forms import Form
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from chat.forms import LoginForm
 
 from django.template.context_processors import csrf
 
 from chat.models import *
+
+
+class RegisterFormView(FormView):
+    form_class = UserCreationForm
+
+    # Ссылка, на которую будет перенаправляться пользователь в случае успешной регистрации.
+    # В данном случае указана ссылка на страницу входа для зарегистрированных пользователей.
+    success_url = "/login/"
+
+    # Шаблон, который будет использоваться при отображении представления.
+    template_name = "register.html"
+
+    def form_valid(self, form):
+        # Создаём пользователя, если данные в форму были введены корректно.
+        form.save()
+
+        # Вызываем метод базового класса
+        return super(RegisterFormView, self).form_valid(form)
+
+
+class LoginFormView(FormView):
+    form_class = AuthenticationForm
+
+    # Аналогично регистрации, только используем шаблон аутентификации.
+    template_name = "login.html"
+
+    # В случае успеха перенаправим на главную.
+    success_url = "/chief/"
+
+    def form_valid(self, form):
+        # Получаем объект пользователя на основе введённых в форму данных.
+        self.user = form.get_user()
+
+        # Выполняем аутентификацию пользователя.
+        login(self.request, self.user)
+        return super(LoginFormView, self).form_valid(form)
 
 
 class MessageForm(Form):
@@ -19,7 +59,7 @@ class MessageForm(Form):
 
 def chief(request):
     dialog_list = Dialog.objects.filter(message__read=True).distinct()
-    messages_not_view = Message.objects.filter(read=False)
+    messages_not_view = Message.objects.filter(read=False).distinct()
     request.session.cycle_key()
     return render(request, "chat_list.html", locals())
 
@@ -40,7 +80,9 @@ def user_template(request):
         s = request.POST.get('sender', '')
         t = request.POST.get('text', '')
         message = {'dialog': dialog, 'text': t, 'sender': s}
-        Message.objects.create(**message)
+        m = Message.objects.create(**message)
+        if request.is_ajax():
+            return render(request, 'sent.html', {'m': m})
     return render(request, template, locals())
 
 

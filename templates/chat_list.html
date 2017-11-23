@@ -9,53 +9,61 @@
     <link href="{% static 'css/chief.css' %}" rel="stylesheet">
 </head>
 <body>
-{% include 'nav_chief.html' %}
-<div class="header">
+{% if user.is_authenticated %}
+    {% include 'nav_chief.html' %}
+    <div class="header">
         <div class="list-group">
-        <div class="col-md-2">
-            <a href="/chief" class="list-group-item active">Онлайн - чаты</a>
-            {% for d in dialog_list %}
-                <a href="{% url 'dialog' d.id %}" class="list-group-item">{{ d.get_dialog_title}}</a>
-            {% endfor %}
-            <div class="not-view">
-                <a href="/chief" class="list-group-item active">Непрочитанные</a>
-                {% for not_view in messages_not_view %}
-                    <a href="{% url 'dialog' not_view.dialog.id %}"
-                       class="list-group-item">{{ not_view.text| truncatechars_html:12 }}</a>
+            <div class="col-md-2">
+                <a href="/chief" class="list-group-item active">Онлайн - чаты</a>
+                {% for d in dialog_list %}
+                    <a href="{% url 'dialog' d.id %}" class="list-group-item">{{ d.get_dialog_title }}</a>
                 {% endfor %}
+                <div class="not-view">
+                    <a href="/chief" class="list-group-item active">Непрочитанные</a>
+                    {% for not_view in messages_not_view %}
+                        <a href="{% url 'dialog' not_view.dialog.id %}"
+                           class="list-group-item">{{ not_view.text| truncatechars_html:12 }}</a>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        <div class="col-xs-6 col-md-5 view">
-            {% if dialog %}
-                {% for m in dialog.message.all %}
-                    <div class="messages msg_sent">
-                        <p><strong>{{ m.sender }} : </strong>{{ m.text }} </p>
-                        <time datetime="">{{ m.created }}</time>
+            <div class="col-xs-6 col-md-5 view">
+                {% if dialog %}
+                    <div class="panel-body msg_container_base" id="msg-list-div">
+                        {% for m in dialog.message.all %}
+                            {% if m.sender == dialog.manager %}
+                                {% include 'receive.html' %}
+                            {% else %}
+                                {% include 'sent.html' %}
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                {% endfor %}
-                <form method="post">
-                    <div class="input-group">
-                        {% csrf_token %}
-                        <input type="text" name="sender" hidden value="{{ request.user }}"/>
-                        <input id="btn-input" name="text" type="text" class="form-control input-sm chat_input"
-                               placeholder="Ваше обращение..."/>
-                        <span class="input-group-btn">
+                    <form method="post">
+                        <div class="input-group">
+                            {% csrf_token %}
+                            <input type="text" name="sender" hidden value="{{ request.user }}"/>
+                            <input id="btn-input" name="text" type="text" class="form-control input-sm chat_input"
+                                   placeholder="Ваше обращение..."/>
+                            <span class="input-group-btn">
                     <button class="btn btn-primary btn-sm" id="id">Отправить</button>
                     </span>
-                    </div>
-                </form>
-            {% endif %}
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="col-lg-12 container text-center">
+                <h2 class="">
+                    Просьба авторизоваться.
+                </h2>
+                <a href="/login/">
+                    <button>Войти</button>
+                </a>
+            </div>
         </div>
-{#        <div class="col-lg-12 container text-center">#}
-{#            <h2 class="">#}
-{#                Просьба авторизоваться.#}
-{#            </h2>#}
-{#            <button class="btn btn-primary btn-sm" id="id" href="/">Войти</button>#}
-{#        </div>#}
     </div>
-</div>
-
+{% endif %}
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script src="{% static 'js/chief.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}"></script>
 </body>
 </html>
