@@ -1,12 +1,16 @@
-<div class="row msg_container base_receive">
-    <div class="col-md-2 col-xs-2 avatar">
-        <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-             class=" img-responsive ">
-    </div>
-    <div class="col-md-10 col-xs-10">
-        <div class="messages msg_receive">
-            <p class="message_text">{{ m.text }}</p>
-            <time datetime="">{{ m.created }}</time>
+{% for m in dialog.message.all %}
+    {% if m.sender == dialog.manager %}
+        <div class="row msg_container base_receive">
+            <div class="col-md-2 col-xs-2 avatar">
+                <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+                     class=" img-responsive ">
+            </div>
+            <div class="col-md-10 col-xs-10">
+                <div class="messages msg_receive">
+                    <p class="message_text">{{ m.text }}</p>
+                    <time datetime="">{{ m.created }}</time>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    {% endif %}
+{% endfor %}

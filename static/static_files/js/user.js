@@ -1,10 +1,10 @@
-$('#chat-form').on('submit', function(event){
+$('#chat-form').on('submit', function (event) {
     event.preventDefault();
     $.ajax({
-        url : '/chat/',
-        type : 'POST',
-        data : $( this ).serialize(),
-        success : function(data){
+        url: '/chat/',
+        type: 'POST',
+        data: $(this).serialize(),
+        success: function (data) {
             $('.name-input').hide();
             $('.chat_input').val('');
             $('.msg_container_base').append(data);
@@ -17,18 +17,38 @@ $('#chat-form').on('submit', function(event){
     return false
 });
 
-function Sent_Get() {
-	  $.ajax({
-          url: "/chat/",
-          type: "GET",
-          dataType: "json",
-          data: $( this ).serialize(),
-          success: function (data) {
-              $('.chat_input').val('');
-              $('.msg_container_base').append(data);
-              console.log('ok');
+function get_message() {
+    $.ajax({
+        url: "/messages/get/",
+        type: "GET"
+    })
+        .done(function (data) {
+            $('.msg_container_base').append(data);
+            // read_message(data);
+            console.log('success receive');
 
-              var chatlist = document.getElementById('msg-list-div');
-              chatlist.scrollTop = chatlist.scrollHeight;
-          }
-      })};
+        })
+        .fail(function (data) {
+            console.log('error receive');
+        })
+        .always(
+            setTimeout(get_message, 5000)
+        )
+}
+
+function read_message(data) {
+    $.ajax({
+        url: "/messages/read/",
+        type: "GET"
+    })
+        .done(function (data) {
+            console.log('success receive');
+        })
+        .fail(function (data) {
+            console.log('error receive');
+        })
+}
+
+
+$(document).ready(get_message());
+

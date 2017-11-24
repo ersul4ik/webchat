@@ -25,22 +25,14 @@
                     </div>
                 </div>
                 <div class="panel-body msg_container_base" id="msg-list-div">
-                    {% for m in dialog.message.all %}
-                        {% if m.sender == dialog.manager %}
-                            {% include 'receive.html' %}
-                        {% else %}
-                            {% include 'sent.html' %}
-                        {% endif %}
-                    {% endfor %}
+
                 </div>
                 <div class="panel-footer">
                     <form method="POST" id="chat-form">
                         {% csrf_token %}
                         <div class="input-group">
-                            {% if not dialog.user_name %}
                             <input id="name-input" type="text" class="form-control input-sm chat_input name-input"
                                    placeholder="Ваше имя..." name="sender"/>
-                            {% endif %}
                             <input id="btn-input" type="text" class="form-control input-sm chat_input"
                                    placeholder="Ваше обращение..." name="text"/>
                             <button class="form-control btn btn-primary btn-sm" id="id" type="submit">Отправить</button>
@@ -53,7 +45,6 @@
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-<script src="{% static 'js/chat.js' %}"></script>
-<script src="{% static 'js/user.js' %}"></script>
+<script src="{% static 'js/client.js' %}"></script>
 </body>
 </html>

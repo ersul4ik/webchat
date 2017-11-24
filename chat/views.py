@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.forms import Form
+from django.http import JsonResponse
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
@@ -61,29 +62,61 @@ class MessageForm(Form):
 def chief(request):
     dialog_list = Dialog.objects.filter(message__read=True).distinct()
     messages_not_view = Message.objects.filter(read=False).distinct()
+    # messages_not_view = Message.objects.filter(read=False)
     return render(request, "chat_list.html", locals())
 
 
 def user_template(request):
     template = 'user_message.html'
     session = request.session
-    if not session.get('my_key'):
+
+    if not session.get('my_key') and request.method == 'GET':
+        return render(request, template)
+
+    if not session.get('my_key') and request.method == 'POST':
         session.cycle_key()
         session['my_key'] = session.session_key
-    dialog, _ = Dialog.objects.get_or_create(user=session.session_key, is_active=True)  # реализация комнаты
-    dialog.user_name = request.POST.get('sender')
-    dialog.save()
-
-    init = {'sender': dialog.user, 'dialog': dialog}
-    form = MessageForm(request.POST or None, initial=init)
-    if form.is_valid():
+        dialog = Dialog.objects.create(
+            user=session.session_key,
+            is_active=True,
+            user_name=request.POST.get('sender'),
+        )  # реализация комнаты
         s = request.POST.get('sender', '')
         t = request.POST.get('text', '')
         message = {'dialog': dialog, 'text': t, 'sender': s}
         m = Message.objects.create(**message)
         if request.is_ajax():
             return render(request, 'sent.html', {'m': m})
+
+    if session.get('my_key') and request.method == 'POST':
+        dialog = Dialog.objects.get(user=session.session_key, is_active=True)  # реализация комнаты
+        s = request.POST.get('sender', '')
+        t = request.POST.get('text', '')
+        message = {'dialog': dialog, 'text': t, 'sender': s}
+        m = Message.objects.create(**message)
+        if request.is_ajax():
+            return render(request, 'sent.html', {'m': m})
+
+        #    url(r'^chat/$', views.user_template, name='user_template'),
+    if session.get('my_key') and request.method == 'GET':
+        dialog = Dialog.objects.get(user=session.session_key, is_active=True)  # реализация комнаты
+        if 'json' in request.GET:
+            return render(request, 'receive.html', locals())
     return render(request, template, locals())
+
+
+# получение сообщений от оператора
+def get_messages(request):
+    session = request.session
+    dialog = get_object_or_404(Dialog, user=session.session_key, is_active=True)
+    return render(request, 'receive.html', locals())
+
+
+def read_messages(request):
+    session = request.session
+    dialog = Dialog.objects.get(user=session.session_key)
+    dialog.message.filter(read=False, sender=dialog.manager).update(read=True)
+    return JsonResponse({'status': 'ok'})
 
 
 @login_required
@@ -98,7 +131,7 @@ def show_dialog(request, dialog_id):
         Message.objects.create(**message)
         dialog.manager = request.user.username
         dialog.save()
-        dialog.message.update(read=True)
+        dialog.message.filter(read=False, sender=dialog.manager).update(read=True)
         # form.save()
     return render(request, template, locals())
 
