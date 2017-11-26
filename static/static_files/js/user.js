@@ -2,53 +2,56 @@ $('#chat-form').on('submit', function (event) {
     event.preventDefault();
     $.ajax({
         url: '/chat/',
-        type: 'POST',
-        data: $(this).serialize(),
-        success: function (data) {
-            $('.name-input').hide();
+        type: $(this).attr('method'),
+        data: $(this).serialize()
+    })
+        .done(function (data) {
+            $('.name-input').remove();
             $('.chat_input').val('');
             $('.msg_container_base').append(data);
-            console.log('ok');
 
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
-        }
-    });
-    return false
+            get_message()
+        })
+        .fail(function (data) {
+            console.log(data)
+        });
+    return false;
 });
 
 function get_message() {
     $.ajax({
         url: "/messages/get/",
-        type: "GET"
+        type: "GET",
+        async: false
     })
         .done(function (data) {
             $('.msg_container_base').append(data);
-            // read_message(data);
-            console.log('success receive');
-
+            var chatlist = document.getElementById('msg-list-div');
+            chatlist.scrollTop = chatlist.scrollHeight;
+            if (data) {
+                read_message();
+            }
         })
         .fail(function (data) {
             console.log('error receive');
         })
         .always(
             setTimeout(get_message, 5000)
-        )
+        );
 }
 
-function read_message(data) {
+function read_message() {
     $.ajax({
         url: "/messages/read/",
-        type: "GET"
+        type: "POST",
+        async: false
     })
-        .done(function (data) {
-            console.log('success receive');
-        })
-        .fail(function (data) {
-            console.log('error receive');
-        })
 }
 
-
-$(document).ready(get_message());
-
+$(document).ready(function () {
+    if (!$('.name-input') || $('.msg_container_base').length > 0) {
+        get_message()
+    }
+});

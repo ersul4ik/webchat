@@ -1,11 +1,19 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf.urls import url
 from chat import views
 
 urlpatterns = [
-    url(r'^chief/$', views.chief, name='chief'),
-    url(r'^chief/(?P<dialog_id>\S+)/$', views.show_dialog, name='dialog'),
-    url(r'^chat/$', views.user_template, name='user_template'),
-    url(r'^messages/get/$', views.get_messages, name='get_messages'),
-    url(r'^messages/read/$', views.read_messages, name='read_messages'),
-    url(r'^logout/', views.logout_a, name='logout'),
+    # интерфейс манаджера:
+    url(r'^management/$', views.management, name='management'),
+    url(r'^management/dialog/(?P<dialog_id>\S+)/$', views.show_dialog, name='dialog'),
+
+    # интерфейс пользователя:
+    url(r'^chat/$', views.client_dialog, name='show_client_dialog'),
+
+    # работа с сообщениями:
+    url(r'^messages/create/$', views.message_create, name='message_create'),
+    url(r'^messages/get/$', views.messages_get, name='messages_get'),
+    url(r'^messages/read/$', views.messages_read, name='messages_read'),
 ]

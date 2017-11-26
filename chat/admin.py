@@ -3,26 +3,15 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from .models import Dialog, Message
+from chat.models import Dialog, Message
 
 
-class DialogAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Dialog._meta.fields]
+@admin.register(Dialog)
+class RoomAdmin(admin.ModelAdmin):
+    exclude = ()
 
 
-admin.site.register(Dialog, DialogAdmin)
-
-
+@admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'created',
-        'dialog',
-        'sender',
-        'text',
-        'read'
-    )
-    list_filter = ('created', 'dialog', 'sender', 'read')
-
-
-admin.site.register(Message, MessageAdmin)
+    exclude = ()
+    list_filter = ('created_at', 'dialog', 'sender', 'read')

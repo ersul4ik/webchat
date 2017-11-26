@@ -4,7 +4,13 @@ from __future__ import unicode_literals
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 
-from models import User
+from models import User, Message
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['dialog', 'body', 'sender']
 
 
 class LoginForm(AuthenticationForm):
