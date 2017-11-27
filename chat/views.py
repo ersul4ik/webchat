@@ -64,20 +64,6 @@ def show_dialog(request, dialog_id):
     return render(request, 'management.html', locals())
 
 
-# def logout_a(request):
-#     auth.logout(request)
-#     return redirect('login')
-#
-#
-# def login_a(request):
-#     template = 'login.html'
-#     form = LoginForm(data=request.POST or None)
-#     if request.method == 'POST':
-#         if form.is_valid():
-#             auth.login(request, form.get_user())
-#             return redirect('')
-#     return render(request, template, {'form': form})
-
 @login_required
 def management(request):
     read_dialogs = Dialog.objects.filter(is_active=True).exclude(manager__isnull=True).distinct()
@@ -90,7 +76,6 @@ def message_create(request):
     form = MessageForm(request.POST or None)
     if form.is_valid():
         form.save()
-        print(form.instance.read)
 
     dialog = form.instance.dialog
     if not dialog.manager and dialog.client != request.user:
@@ -100,6 +85,23 @@ def message_create(request):
     Message.objects.filter(dialog=dialog, read=False).exclude(sender=request.user).update(read=True)
     context = render_to_string('sent.html', {'m': form.instance})
     return HttpResponse(context)
+
+
+# получение сообщений от отправителя
+def messages_get(request):
+    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)
+    context = ''
+    for m in dialog.messages.filter(read=False):
+        if request.user != m.sender:
+            context += render_to_string('receive.html', locals())
+    return HttpResponse(context)
+
+
+@csrf_exempt
+def messages_read(request):
+    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)
+    dialog.messages.filter(read=False).exclude(sender=request.user).update(read=True)
+    return HttpResponse('Все ок')
 
 
 @csrf_exempt
@@ -121,6 +123,7 @@ def client_dialog(request):
     return render(request, 'user_message.html', locals())
 
 
+# TODO: Разбить на куски templates
 def create_user(request):
     u = {'first_name': request.POST.get('client_name', ''),
          'last_name': 'anonymous',
@@ -131,19 +134,3 @@ def create_user(request):
     user.save()
     return user
 
-
-# получение сообщений от оператора
-def messages_get(request):
-    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)
-    context = ''
-    for m in dialog.messages.filter(read=False):
-        if request.user != m.sender:
-            context += render_to_string('receive.html', locals())
-    return HttpResponse(context)
-
-
-@csrf_exempt
-def messages_read(request):
-    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)
-    dialog.messages.filter(read=False).exclude(sender=request.user).update(read=True)
-    return HttpResponse('Все ок')

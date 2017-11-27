@@ -1,7 +1,5 @@
 $(document).ready(function () {
-    var chatlist = document.getElementById('msg-list-div');
-    chatlist.scrollTop = chatlist.scrollHeight;
-    if ($('#id_body')) {
+    if ($('#chat-form')) {
         get_message()
     }
 });
@@ -15,7 +13,6 @@ $('#chat-form').on('submit', function (event) {
     })
         .done(
             function (data) {
-                $('.name-input').remove();
                 $('.chat_input').val('');
                 $('.msg_container_base').append(data);
 

@@ -21,10 +21,10 @@
                 {% endfor %}
             </div>
             <div class="not-view">
-                <a href="/chief" class="list-group-item active">Непрочитанные</a>
+                <a href="" class="list-group-item active">Непрочитанные</a>
                 {% for d in not_read_dialogs %}
                     <a href="{% url 'dialog' d.id %}"
-                       class="list-group-item">{{ d.get_dialog_title| truncatechars_html:20 }}</a>
+                       class="list-group-item message-receive">{{ d.get_dialog_title| truncatechars_html:20 }}</a>
                 {% endfor %}
             </div>
         </div>
@@ -44,7 +44,7 @@
                         {% csrf_token %}
                         <span class="input-group-btn">
                         {{ form.sender|attr:"hidden" }}
-                        {{ form.room|attr:"hidden" }}
+                        {{ form.dialog|attr:"hidden" }}
                         {{ form.body|add_class:"form-control chat_input"|attr:"rows:2"|attr:"cols:20"|attr:"placeholder:Ваше обращение..." }}
                         <button class="btn btn-primary btn-sm" id="id">Отправить</button>
                     </span>

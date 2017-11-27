@@ -12,7 +12,7 @@ urlpatterns = [
     # интерфейс пользователя:
     url(r'^chat/$', views.client_dialog, name='show_client_dialog'),
 
-    # работа с сообщениями:
+    # работа с сообщениями:ч
     url(r'^messages/create/$', views.message_create, name='message_create'),
     url(r'^messages/get/$', views.messages_get, name='messages_get'),
     url(r'^messages/read/$', views.messages_read, name='messages_read'),
