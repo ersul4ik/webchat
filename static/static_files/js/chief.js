@@ -13,6 +13,7 @@ $('#chat-form').on('submit', function (event) {
     })
         .done(
             function (data) {
+                $('.name-input').remove();
                 $('.chat_input').val('');
                 $('.msg_container_base').append(data);
 
@@ -30,6 +31,8 @@ function get_message() {
         async: false
     })
         .done(function (data) {
+            console.log(data);
+            // $('#message-receive').append(data);
             $('.msg_container_base').append(data);
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
@@ -50,3 +53,36 @@ function read_message() {
         async: false
     })
 }
+
+
+//
+// function get_message_list() {
+//     $.ajax({
+//         url: "/messages/list/",
+//         type: "GET",
+//         async: false
+//     })
+//         .done(function (data) {
+//             $('.not-view').append(data);
+//             if(data){
+//                 seen_message();
+//             }
+//             console.log('ok')
+//         })
+//         .fail(function (data) {
+//             console.log('Message not receive');
+//         })
+//         .always(
+//             setTimeout(get_message_list, 6000)
+//         );
+// }
+
+
+
+// function seen_message() {
+//     $.ajax({
+//         url: "/messages/seen/",
+//         type: "POST",
+//         async: false
+//     })
+// }

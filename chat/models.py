@@ -33,6 +33,7 @@ class Message(models.Model):
     sender = models.ForeignKey(User, verbose_name=_("Sender"))
     body = models.TextField(verbose_name=_("Message text"))
     read = models.BooleanField(verbose_name=_("Read"), default=False)
+    seen = models.BooleanField(verbose_name=_("Seen"), default=False)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
 
     def get_formatted_create_datetime(self):

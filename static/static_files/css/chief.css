@@ -7,8 +7,11 @@
     height: 400px;
     width: 700px;
 }
-.input-group{
+.input-group #id_body{
     width: 700px;
+}
+#id{
+    height: 50px;
 }
 .messages {
   background: white;

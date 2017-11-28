@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href="{% static 'fonts/css?family=Lobster' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/user.css' %}" rel="stylesheet">
 </head>
@@ -24,15 +24,7 @@
                         <a href="#"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>
                     </div>
                 </div>
-                <div class="panel-body msg_container_base" id="msg-list-div">
-                    {% for m in dialog.messages.all %}
-                        {% if m.sender == request.user %}
-                            {% include 'sent.html' %}
-                        {% else %}
-                            {% include 'receive.html' %}
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {% include 'message_view.html' %}
                 <div class="panel-footer">
                     <form method="POST" id="chat-form" action="{% url 'message_create' %}">
                         {% csrf_token %}

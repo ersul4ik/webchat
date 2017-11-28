@@ -14,4 +14,4 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     exclude = ()
-    list_filter = ('created_at', 'dialog', 'sender', 'read')
+    list_filter = ('created_at', 'dialog', 'sender', 'read', 'seen')

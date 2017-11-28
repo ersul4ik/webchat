@@ -89,18 +89,38 @@ def message_create(request):
 
 # получение сообщений от отправителя
 def messages_get(request):
-    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)
+    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user),
+                               is_active=True)
     context = ''
     for m in dialog.messages.filter(read=False):
         if request.user != m.sender:
             context += render_to_string('receive.html', locals())
-    return HttpResponse(context)
+        if m.dialog.manager == '':
+            context += render_to_string('message_list.html', locals())
+        return HttpResponse(context)
+
+
+# получение сообщений от отправителя
+# def messages_get_list(request):
+#     dialog = get_object_or_404(Dialog,  is_active=True)
+#     context = ''
+#     for d in dialog.messages.filter(seen=False):
+#         if request.user != d.sender:
+#             context += render_to_string('message_list.html', locals())
+#     return HttpResponse(context)
+#
+#
+# @csrf_exempt
+# def message_seen(request):
+#     dialog = get_object_or_404(Dialog, is_active=True)
+#     dialog.messages.filter(seen=False).update(seen=True)
+#     return HttpResponse('Все ок')
 
 
 @csrf_exempt
 def messages_read(request):
     dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)
-    dialog.messages.filter(read=False).exclude(sender=request.user).update(read=True)
+    dialog.messages.filter(read=False).exclude(sender=request.user).update(read=True, seen=True)
     return HttpResponse('Все ок')
 
 
@@ -123,7 +143,6 @@ def client_dialog(request):
     return render(request, 'user_message.html', locals())
 
 
-# TODO: Разбить на куски templates
 def create_user(request):
     u = {'first_name': request.POST.get('client_name', ''),
          'last_name': 'anonymous',
