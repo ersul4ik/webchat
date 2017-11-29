@@ -64,6 +64,12 @@ def show_dialog(request, dialog_id):
     return render(request, 'management.html', locals())
 
 
+# деактивирование диалога
+def close_dialog(request, dialog_id):
+    Dialog.objects.filter(id=dialog_id).update(is_active=False)
+    return render(request, 'management.html', locals())
+
+
 @login_required
 def management(request):
     read_dialogs = Dialog.objects.filter(is_active=True).exclude(manager__isnull=True).distinct()
@@ -93,10 +99,10 @@ def messages_get(request):
                                is_active=True)
     context = ''
     for m in dialog.messages.filter(read=False):
-        if request.user != m.sender:
-            context += render_to_string('receive.html', locals())
         if m.dialog.manager == '':
             context += render_to_string('message_list.html', locals())
+        if request.user != m.sender:
+            context += render_to_string('receive.html', locals())
         return HttpResponse(context)
 
 
@@ -132,7 +138,6 @@ def client_dialog(request):
             user = create_user(request)
 
         dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
-        print(dialog.manager)
         initial = {'dialog': dialog.id, 'sender': user.id, 'body': request.POST.get('body', '')}
         request.POST = initial
         return message_create(request)

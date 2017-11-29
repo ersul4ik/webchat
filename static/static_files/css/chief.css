@@ -5,13 +5,15 @@
 #msg-list-div{
     overflow: scroll;
     height: 400px;
-    width: 700px;
+    width: 800px;
 }
 .input-group #id_body{
+    margin: 5px;
     width: 700px;
 }
 #id{
-    height: 50px;
+    margin: 5px;
+    height: 45px;
 }
 .messages {
   background: white;
@@ -100,4 +102,8 @@ img {
 }
 .name-input{
     width: 80%;
+}
+.button-chat{
+    height: 45px;
+    margin-top: 5px;
 }

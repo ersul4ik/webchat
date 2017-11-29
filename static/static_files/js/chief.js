@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    if ($('#chat-form')) {
+    if (!$('#chat-form')) {
         get_message()
     }
 });
@@ -31,18 +31,18 @@ function get_message() {
         async: false
     })
         .done(function (data) {
-            console.log(data);
-            // $('#message-receive').append(data);
             $('.msg_container_base').append(data);
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
-            read_message();
+            if(data){
+                read_message();
+            }
         })
         .fail(function (data) {
             console.log('error receive');
         })
         .always(
-            setTimeout(get_message, 5000)
+            setTimeout(get_message, 8000)
         );
 }
 

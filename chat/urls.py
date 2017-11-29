@@ -7,6 +7,7 @@ urlpatterns = [
     # интерфейс манаджера:
     url(r'^management/$', views.management, name='management'),
     url(r'^management/dialog/(?P<dialog_id>\S+)/$', views.show_dialog, name='dialog'),
+    url(r'^management/active/(?P<dialog_id>\S+)/$', views.close_dialog, name='close'),
 
     # интерфейс пользователя:
     url(r'^chat/$', views.client_dialog, name='show_client_dialog'),
