@@ -17,8 +17,6 @@ urlpatterns = [
     url(r'^messages/create/$', views.message_create, name='message_create'),
     url(r'^messages/get/$', views.messages_get, name='messages_get'),
     url(r'^messages/read/$', views.messages_read, name='messages_read'),
-    # url(r'^messages/list/$', views.messages_get_list, name='messages_get_list'),
-    # url(r'^messages/seen/$', views.message_seen, name='message_seen'),
 
 ]
 

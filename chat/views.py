@@ -108,26 +108,11 @@ def messages_get(request):
                                is_active=True)
     context = ''
     for m in dialog.messages.filter(read=False):
+        if request.user:
+            context += render_to_string('message_list.html', locals())
         if request.user != m.sender:
             context += render_to_string('receive.html', locals())
     return HttpResponse(context)
-
-
-# получение сообщений от отправителя
-# def messages_get_list(request):
-#     dialog = get_object_or_404(Dialog,  is_active=True)
-#     context = ''
-#     for d in dialog.messages.filter(seen=False):
-#         if request.user != d.sender:
-#             context += render_to_string('message_list.html', locals())
-#     return HttpResponse(context)
-#
-#
-# @csrf_exempt
-# def message_seen(request):
-#     dialog = get_object_or_404(Dialog, is_active=True)
-#     dialog.messages.filter(seen=False).update(seen=True)
-#     return HttpResponse('Все ок')
 
 
 @csrf_exempt
