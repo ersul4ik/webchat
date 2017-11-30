@@ -101,7 +101,7 @@ MIDDLEWARE = [
     'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
 ]
 
-ROOT_URLCONF = 'web_chat.urls'
+ROOT_URLCONF = 'webchat.urls'
 
 TEMPLATES = [
     {
@@ -119,7 +119,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'web_chat.wsgi.application'
+WSGI_APPLICATION = 'webchat.wsgi.application'
 
 
 default_db = 'sqlite:///{}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
