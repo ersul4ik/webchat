@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    if (!$('#chat-form')) {
+    if ($('#chat-form')) {
         get_message()
     }
 });

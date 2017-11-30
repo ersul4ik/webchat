@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils.crypto import get_random_string
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.edit import FormView
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from chat.forms import MessageForm
 from chat.models import Dialog, Message
@@ -54,9 +54,17 @@ class LoginFormView(FormView):
 
 
 @login_required
+def logout_view(request):
+    logout(request)
+    return redirect('/login/')
+
+
+@login_required
 def show_dialog(request, dialog_id):
-    read_dialogs = Dialog.objects.filter(is_active=True).exclude(manager__isnull=True).distinct()
-    not_read_dialogs = Dialog.objects.filter(messages__read=False).filter(~Q(messages__sender=request.user)).distinct()
+    read_dialogs = Dialog.objects.filter(is_active=True).exclude(
+        manager__isnull=True).distinct()
+    not_read_dialogs = Dialog.objects.filter(is_active=True, messages__read=False).filter(
+        ~Q(messages__sender=request.user)).distinct()
 
     dialog = get_object_or_404(Dialog, id=dialog_id)
     form = MessageForm(request.POST or None, initial={'dialog': dialog, 'sender': request.user})
@@ -65,9 +73,10 @@ def show_dialog(request, dialog_id):
 
 
 # деактивирование диалога
+@login_required
 def close_dialog(request, dialog_id):
     Dialog.objects.filter(id=dialog_id).update(is_active=False)
-    return render(request, 'management.html', locals())
+    return HttpResponseRedirect("/management/")
 
 
 @login_required
@@ -99,11 +108,9 @@ def messages_get(request):
                                is_active=True)
     context = ''
     for m in dialog.messages.filter(read=False):
-        if m.dialog.manager == '':
-            context += render_to_string('message_list.html', locals())
         if request.user != m.sender:
             context += render_to_string('receive.html', locals())
-        return HttpResponse(context)
+    return HttpResponse(context)
 
 
 # получение сообщений от отправителя
