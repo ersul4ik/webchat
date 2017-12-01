@@ -106,9 +106,6 @@ def message_create(request):
 def messages_get(request):
     dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)
     context = ''
-    for s in dialog.messages.filter(seen=False):
-        if request.user != s.sender:
-            context += render_to_string('message_list.html', locals())
     for m in dialog.messages.filter(read=False):
         if request.user != m.sender:
             context += render_to_string('receive.html', locals())
