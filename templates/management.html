@@ -10,6 +10,7 @@
     <link href="{% static 'css/chief.css' %}" rel="stylesheet">
 </head>
 <body>
+{% if user.is_authenticated %}
 {% include 'nav_chief.html' %}
 <div class="header">
     <div class="col-md-12">
@@ -51,6 +52,9 @@
         <script src="{% static 'js/chief.js' %}"></script>
         <script src="{% static 'js/bootstrap.js' %}"></script>
     </div>
+{% else %}
+    {% include 'login.html' %}
+{% endif %}
 </div>
 </body>
 </html>
