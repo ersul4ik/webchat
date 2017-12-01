@@ -2,39 +2,31 @@ $(document).ready(function () {
     if ($('#chat-form')) {
         get_message()
     }
-
-    $('#id_body').keydown(
-        function (event) {
-            if (event.keyCode == 13) {
-                sent();
-            }
-        }
-    );
-
+    else{
+        get_message()
+    }
 
 });
 
-function sent() {
-    $('#chat-form').on('submit', function (event) {
-        event.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: $(this).serialize()
-        })
-            .done(
-                function (data) {
-                    $('.name-input').remove();
-                    $('.chat_input').val('');
-                    $('.msg_container_base').append(data);
+$('#chat-form').on('submit', function (event) {
+    event.preventDefault();
+    $.ajax({
+        url: $(this).attr('action'),
+        type: $(this).attr('method'),
+        data: $(this).serialize()
+    })
+        .done(
+            function (data) {
+                $('.name-input').remove();
+                $('.chat_input').val('');
+                $('.msg_container_base').append(data);
 
-                    var chatlist = document.getElementById('msg-list-div');
-                    chatlist.scrollTop = chatlist.scrollHeight;
-                    get_message()
-                });
-        return false
-    });
-}
+                var chatlist = document.getElementById('msg-list-div');
+                chatlist.scrollTop = chatlist.scrollHeight;
+                get_message()
+            });
+    return false
+});
 
 
 function get_message() {
@@ -44,6 +36,7 @@ function get_message() {
         async: false
     })
         .done(function (data) {
+            $('#message-receive').append(data);
             $('.msg_container_base').append(data);
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
