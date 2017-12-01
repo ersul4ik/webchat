@@ -31,7 +31,6 @@ function get_message() {
         async: false
     })
         .done(function (data) {
-            $('#message-receive').append(data);
             $('.msg_container_base').append(data);
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
