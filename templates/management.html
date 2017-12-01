@@ -39,11 +39,10 @@
                         <span class="input-group-btn">
                         {{ form.sender|attr:"hidden" }}
                         {{ form.dialog|attr:"hidden" }}
-                        {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..."|type:"submit" }}
+                        {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..."}}
                         </span>
                         <button class="btn btn-primary btn-sm button-chat" type="submit">Отправить</button>
                         <a href="{% url 'close' dialog.id %}" class="btn btn-danger btn-sm button-chat">Завершить</a>
-
                     </div>
                 </form>
             {% endif %}
