@@ -107,7 +107,7 @@ def messages_get_first(request):
     dialog = get_object_or_404(Dialog, is_active=True)
     context = ''
     for d in dialog.objects.filter(messages__seen=False):
-        if request.user != d.sender:
+        if request.user != d.message.sender:
             context += render_to_string('message_list.html', locals())
     return HttpResponse(context)
 
