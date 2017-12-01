@@ -1,3 +1,7 @@
+body{
+    opacity:0;
+    transition:.5s;">
+}
 .msg_sent{
     padding-bottom:20px !important;
     margin-right:0;

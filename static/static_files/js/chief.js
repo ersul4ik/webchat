@@ -3,7 +3,7 @@ $(document).ready(function () {
         get_message()
     }
 
-    $(".chat_input").keydown(
+    $('#id_body').keydown(
         function (event) {
             if (event.keyCode == 13) {
                 sent();
@@ -15,7 +15,7 @@ $(document).ready(function () {
 });
 
 function sent() {
-    $('#chat-form').on('submit', function sent(event) {
+    $('#chat-form').on('submit', function (event) {
         event.preventDefault();
         $.ajax({
             url: $(this).attr('action'),
