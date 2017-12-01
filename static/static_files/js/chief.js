@@ -3,7 +3,7 @@ $(document).ready(function () {
         get_message()
     }
     else{
-        get_message()
+        get_message_seen()
     }
 
 });
@@ -28,6 +28,25 @@ $('#chat-form').on('submit', function (event) {
     return false
 });
 
+function get_message_seen() {
+    $.ajax({
+        url: "/messages/get/",
+        type: "GET",
+        async: false
+    })
+        .done(function (data) {
+            $('#message-receive').append(data);
+            if (data) {
+                read_message();
+            }
+        })
+        .fail(function (data) {
+            console.log('error receive');
+        })
+        .always(
+            setTimeout(get_message, 8000)
+        );
+}
 
 function get_message() {
     $.ajax({
