@@ -104,12 +104,13 @@ def message_create(request):
 
 # получение сообщений от отправителя
 def messages_get(request):
-    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user),
-                               is_active=True)
+    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)
     context = ''
+    for d in dialog.filter(messages__read=False):  # walking through unread messages
+        if request.user.password == '':  # find the client
+            context += render_to_string('message_list.html', locals())  # Paste his message to template
+            return HttpResponse(context)
     for m in dialog.messages.filter(read=False):
-        if request.user:
-            context += render_to_string('message_list.html', locals())
         if request.user != m.sender:
             context += render_to_string('receive.html', locals())
     return HttpResponse(context)
