@@ -102,6 +102,16 @@ def message_create(request):
     return HttpResponse(context)
 
 
+# получение сообщений в левой части интерфейса оператора
+def messages_get_first(request):
+    dialog = get_object_or_404(Dialog, is_active=True)
+    context = ''
+    for d in dialog.objects.filter(messages__seen=False):
+        if request.user != d.sender:
+            context += render_to_string('message_list.html', locals())
+    return HttpResponse(context)
+
+
 # получение сообщений от отправителя
 def messages_get(request):
     dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user), is_active=True)

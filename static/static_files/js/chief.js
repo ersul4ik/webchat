@@ -2,6 +2,9 @@ $(document).ready(function () {
     if ($('#chat-form')) {
         get_message()
     }
+    else{
+        get_first_message()
+    }
 });
 
 $('#chat-form').on('submit', function (event) {
@@ -23,6 +26,26 @@ $('#chat-form').on('submit', function (event) {
             });
     return false
 });
+
+function get_first_message() {
+    $.ajax({
+        url: "/messages/seen/",
+        type: "GET",
+        async: false
+    })
+        .done(function (data) {
+            $('#message-receive').append(data);
+            if (data) {
+                read_message();
+            }
+        })
+        .fail(function (data) {
+            console.log('error receive');
+        })
+        .always(
+            setTimeout(get_first_message, 6000)
+        );
+}
 
 function get_message() {
     $.ajax({
