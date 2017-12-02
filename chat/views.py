@@ -61,7 +61,7 @@ def logout_view(request):
 
 @login_required
 def show_dialog(request, dialog_id):
-    read_dialogs = Dialog.objects.filter(is_active=True).exclude(
+    read_dialogs = Dialog.objects.filter(is_active=True, messages__read=True).exclude(
         manager__isnull=True).distinct()
     not_read_dialogs = Dialog.objects.filter(is_active=True, messages__read=False).filter(
         ~Q(messages__sender=request.user)).distinct()
