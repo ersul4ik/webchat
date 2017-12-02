@@ -40,12 +40,15 @@
                         <span class="input-group-btn">
                         {{ form.sender|attr:"hidden" }}
                         {{ form.dialog|attr:"hidden" }}
+                        {% if dialog.manager == request.user %}
                         {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..." }}
                         {{ dialog.manager }}
                         </span>
                         <button class="btn btn-primary btn-sm button-chat" type="submit">Отправить</button>
+                        {% else %}
                         <a href="{% url 'close' dialog.id %}" class="btn btn-danger btn-sm button-chat">Завершить</a>
                     </div>
+                        {% endif %}
                 </form>
             {% endif %}
         </div>
