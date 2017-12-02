@@ -18,6 +18,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'kc6plb5r=fx*n0o-msw+!v3ik@iq%=-s_$6^s1f2f(xd@4mos#'
 
+# Деактивирует сессию если браузер закроется
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.get_value('DEBUG', default=False)
 
