@@ -31,7 +31,7 @@ function get_first_message() {
         type: "GET"
     })
         .done(function (data) {
-            $('#messag-receive').append(data);
+            $('#mess-receive').append(data);
             if (data) {
                 read_message();
             }
