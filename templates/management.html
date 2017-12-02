@@ -11,8 +11,8 @@
 </head>
 <body>
 {% if user.has_usable_password %}
-{% include 'nav_chief.html' %}
-<div class="header">
+    {% include 'nav_chief.html' %}
+    <div class="header">
     <div class="col-md-12">
         <div class="col-md-2">
             <div>
@@ -40,7 +40,7 @@
                         <span class="input-group-btn">
                         {{ form.sender|attr:"hidden" }}
                         {{ form.dialog|attr:"hidden" }}
-                        {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..."}}
+                        {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..." }}
                         {{ dialog.manager }}
                         </span>
                         <button class="btn btn-primary btn-sm button-chat" type="submit">Отправить</button>
@@ -54,7 +54,7 @@
         <script src="{% static 'js/bootstrap.js' %}"></script>
     </div>
 {% else %}
-    {% include 'login.html' %}
+    <li><a href="{% url 'logout' %}">Авторизоваться</a></li>
 {% endif %}
 </div>
 </body>
