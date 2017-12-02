@@ -40,6 +40,7 @@
                         <span class="input-group-btn">
                         {{ form.sender|attr:"hidden" }}
                         {{ form.dialog|attr:"hidden" }}
+                        {{ form.dialog.manager }}
                         {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..."}}
                         </span>
                         <button class="btn btn-primary btn-sm button-chat" type="submit">Отправить</button>

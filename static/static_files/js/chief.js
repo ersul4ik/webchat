@@ -1,9 +1,7 @@
 $(document).ready(function () {
+    get_first_message();
     if ($('#chat-form')) {
         get_message()
-    }
-    else{
-        get_first_message()
     }
 });
 
@@ -30,8 +28,7 @@ $('#chat-form').on('submit', function (event) {
 function get_first_message() {
     $.ajax({
         url: "/messages/seen/",
-        type: "GET",
-        async: false
+        type: "GET"
     })
         .done(function (data) {
             $('#messag-receive').append(data);
