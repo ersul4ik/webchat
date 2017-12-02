@@ -26,7 +26,7 @@ ALLOWED_HOSTS = ['*']
 LOGIN_URL = '/login/'
 
 RAVEN_CONFIG = {
-    'dsn': 'https://04f8f2235e4240618582db8be0ee5b7f:cecb6460776f4b76be3aa09e62c8511c@sentry.io/252877',
+    'dsn': '<your-dsn-here>',
 }
 
 LOGGING = {
@@ -97,7 +97,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
     'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
 ]
 
