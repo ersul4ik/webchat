@@ -34,7 +34,7 @@ function get_first_message() {
         async: false
     })
         .done(function (data) {
-            $('#message-receive').append(data);
+            $('#messag-receive').append(data);
             if (data) {
                 read_message();
             }

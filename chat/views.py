@@ -106,8 +106,8 @@ def message_create(request):
 def messages_get_first(request):
     dialog = Dialog.objects.filter(messages__read=False, is_active=True)
     context = ''
-    for d in dialog(messages__seen=False):
-        if request.user != d.message.sender:
+    for m in dialog(messages__seen=False):
+        if request.user != m.message.sender:
             context += render_to_string('message_list.html', locals())
     return HttpResponse(context)
 
