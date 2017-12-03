@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    if ($('#manager_name')) {
+    if ($('#chat-form')) {
         confirmation_of_the_dialogue()
     }
 
