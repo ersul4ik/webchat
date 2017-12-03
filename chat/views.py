@@ -82,7 +82,7 @@ def close_dialog(request, dialog_id):
 @login_required
 def management(request):
     read_dialogs = Dialog.objects.filter(is_active=True).exclude(manager__isnull=True).distinct()
-    not_read_dialogs = Dialog.objects.filter(messages__read=False).filter(~Q(messages__sender=request.user)).distinct()
+    not_read_dialogs = Dialog.objects.filter(messages__read=False, is_active=True).filter(~Q(messages__sender=request.user)).distinct()
     return render(request, 'management.html', locals())
 
 

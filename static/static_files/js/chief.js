@@ -2,9 +2,6 @@ $(document).ready(function () {
     if ($('#manager_name')) {
         confirmation_of_the_dialogue()
     }
-    if ($('#chat-form')) {
-        get_message()
-    }
 
 });
 
