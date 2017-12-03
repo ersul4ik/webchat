@@ -1,8 +1,30 @@
 $(document).ready(function () {
+    if ($('.sent')) {
+        confirmation_of_the_dialogue()
+    }
     if ($('#chat-form')) {
         get_message()
     }
+
 });
+
+function confirmation_of_the_dialogue() {
+    var manager = $('#manager_name').val();
+
+    $.ajax({
+        url: "/messages/create/",
+        type: "POST",
+        data: manager,
+        async: false
+    })
+
+        .done(
+            function (data) {
+                get_message()
+            });
+    return false
+}
+
 
 $('#chat-form').on('submit', function (event) {
     event.preventDefault();

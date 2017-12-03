@@ -137,7 +137,6 @@ def client_dialog(request):
     if request.is_ajax():
         if not user.is_authenticated:
             user = create_user(request)
-
         dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
         initial = {'dialog': dialog.id, 'sender': user.id, 'body': request.POST.get('body', '')}
         request.POST = initial
