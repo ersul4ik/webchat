@@ -95,7 +95,10 @@ def message_create(request):
         form.save()
 
     dialog = form.instance.dialog
-    if not dialog.manager and dialog.client != request.user and request.is_ajax:
+    if not dialog.manager and request.is_ajax:
+        dialog.manager = request.user
+        dialog.save()
+    if not dialog.manager and dialog.client != request.user:
         dialog.manager = request.user
         dialog.save()
 

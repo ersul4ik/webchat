@@ -7,12 +7,9 @@ $(document).ready(function () {
 
 function confirmation_of_the_dialogue() {
 
-    // var manager = document.getElementById("manager_name");
-
     $.ajax({
         url: "/messages/create/",
-        type: "POST",
-        data: $(this).serialize()
+        type: "POST"
     })
 
         .done(
