@@ -81,8 +81,10 @@ def close_dialog(request, dialog_id):
 
 @login_required
 def management(request):
+    manager = request.user or None
     read_dialogs = Dialog.objects.filter(is_active=True).exclude(manager__isnull=True).distinct()
-    not_read_dialogs = Dialog.objects.filter(messages__read=False, is_active=True).filter(~Q(messages__sender=request.user)).distinct()
+    not_read_dialogs = Dialog.objects.filter(messages__read=False,
+                                             is_active=True).filter(~Q(manager=manager)).distinct()
     return render(request, 'management.html', locals())
 
 
@@ -93,7 +95,7 @@ def message_create(request):
         form.save()
 
     dialog = form.instance.dialog
-    if not dialog.manager and dialog.client != request.user:
+    if not dialog.manager and dialog.client != request.user and request.is_ajax:
         dialog.manager = request.user
         dialog.save()
 

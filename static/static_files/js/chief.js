@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    if ($('#chat-form')) {
+    if ($('.chat_input')) {
         confirmation_of_the_dialogue()
     }
 
@@ -7,12 +7,12 @@ $(document).ready(function () {
 
 function confirmation_of_the_dialogue() {
 
-    var manager = document.getElementById("manager_name");
+    // var manager = document.getElementById("manager_name");
 
     $.ajax({
         url: "/messages/create/",
         type: "POST",
-        data: manager
+        data: $(this).serialize()
     })
 
         .done(
