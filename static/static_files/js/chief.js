@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    if ($('.sent')) {
+    if ($('#manager_name')) {
         confirmation_of_the_dialogue()
     }
     if ($('#chat-form')) {
@@ -9,7 +9,8 @@ $(document).ready(function () {
 });
 
 function confirmation_of_the_dialogue() {
-    var manager = $('#manager_name').val();
+
+    var manager = document.getElementById("manager_name");
 
     $.ajax({
         url: "/messages/create/",
