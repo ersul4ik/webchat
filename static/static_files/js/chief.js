@@ -15,14 +15,14 @@ function confirmation_of_the_dialogue() {
     $.ajax({
         url: "/messages/create/",
         type: "POST",
-        data: manager,
-        async: false
+        data: manager
     })
 
         .done(
             function (data) {
                 get_message()
             });
+
     return false
 }
 

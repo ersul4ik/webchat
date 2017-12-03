@@ -42,7 +42,7 @@
                         {{ form.dialog|attr:"hidden" }}
                             {% if dialog.manager is None or dialog.manager == request.user %}
                                 {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..." }}
-                                <span class="sent" id="manager_name" hidden>{{ request.user }}</span>
+                                <span class="sent" id="manager_name">{{ request.user }}</span>
                                 </span>
                                 <button class="btn btn-primary btn-sm button-chat" type="submit">Отправить</button>
                                 <a href="{% url 'close' dialog.id %}" class="btn btn-danger btn-sm button-chat">Завершить</a>
