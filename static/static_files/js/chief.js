@@ -1,25 +1,6 @@
 $(document).ready(function () {
-    if ($('.chat_input')) {
-        confirmation_of_the_dialogue()
-    }
-
+        get_first_message()
 });
-
-function confirmation_of_the_dialogue() {
-
-    $.ajax({
-        url: "/messages/create/",
-        type: "POST"
-    })
-
-        .done(
-            function (data) {
-                get_message()
-            });
-
-    return false
-}
-
 
 $('#chat-form').on('submit', function (event) {
     event.preventDefault();
@@ -42,22 +23,29 @@ $('#chat-form').on('submit', function (event) {
 });
 
 function get_first_message() {
+    console.log("ok");
     $.ajax({
         url: "/messages/seen/",
         type: "GET"
     })
         .done(function (data) {
-            $('#mess-receive').append(data);
-            if (data) {
-                read_message();
-            }
+            $('.append').append(data);
+                get_read_message()
         })
         .fail(function (data) {
             console.log('error receive');
         })
         .always(
-            setTimeout(get_first_message, 6000)
+            setTimeout(get_first_message, 10000)
         );
+}
+
+function get_read_message() {
+        $.ajax({
+        url: "/messages/link/",
+        type: "POST",
+        async: false
+    })
 }
 
 function get_message() {

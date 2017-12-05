@@ -67,8 +67,19 @@ def show_dialog(request, dialog_id):
         ~Q(messages__sender=request.user)).distinct()
 
     dialog = get_object_or_404(Dialog, id=dialog_id)
+    if not dialog.manager:
+        dialog.manager = request.user
+        dialog.save()
     form = MessageForm(request.POST or None, initial={'dialog': dialog, 'sender': request.user})
+    return render(request, 'management.html', locals())
 
+
+@login_required
+def management(request):
+    manager = request.user or None
+    read_dialogs = Dialog.objects.filter(is_active=True, manager=manager).exclude(manager__isnull=True).distinct()
+    not_read_dialogs = Dialog.objects.filter(messages__read=False,
+                                             is_active=True).distinct()
     return render(request, 'management.html', locals())
 
 
@@ -80,22 +91,13 @@ def close_dialog(request, dialog_id):
 
 
 @login_required
-def management(request):
-    manager = request.user or None
-    read_dialogs = Dialog.objects.filter(is_active=True).exclude(manager__isnull=True).distinct()
-    not_read_dialogs = Dialog.objects.filter(messages__read=False,
-                                             is_active=True).filter(~Q(manager=manager)).distinct()
-    return render(request, 'management.html', locals())
-
-
-@login_required
 def message_create(request):
     form = MessageForm(request.POST or None)
     if form.is_valid():
         form.save()
 
     dialog = form.instance.dialog
-    if not dialog.manager and request.is_ajax and dialog.client != request.user:
+    if not dialog.manager and dialog.client != request.user:
         dialog.manager = request.user
         dialog.save()
 
@@ -107,12 +109,19 @@ def message_create(request):
 # получение сообщений в левой части интерфейса оператора
 def messages_get_first(request):
     dialog = Dialog.objects.filter(messages__read=False, messages__seen=False,
-                                   is_active=True)
+                                   is_active=True).distinct()
     context = ''
     for d in dialog:
-        if request.user != d.message.sender:
+        if not d.manager:
             context += render_to_string('message_list.html', locals())
     return HttpResponse(context)
+
+
+@csrf_exempt
+def messages_get_read(request):
+    dialog = get_object_or_404(Dialog, is_active=True)
+    dialog.messages.filter(seen=False).update(seen=True)
+    return HttpResponse('Все ок')
 
 
 # получение сообщений от отправителя

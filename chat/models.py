@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
-from model_utils.models import TimeStampedModel, SoftDeletableModel
 from django.conf import settings
 from django.template.defaultfilters import date as dj_date
 from django.utils.translation import ugettext as _
@@ -26,6 +25,11 @@ class Dialog(models.Model):
 
     def get_dialog_title(self):
         return 'Чат c "{}"'.format(self.client.first_name)
+
+    # def get_manager(self):
+    #     manager = self.manager
+    #     manager = random.choice
+    #     return manager
 
 
 class Message(models.Model):

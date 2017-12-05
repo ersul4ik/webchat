@@ -12,6 +12,20 @@ body{
 .panel{
     margin-bottom: 0px;
 }
+#name-input, #btn-input{
+    border-radius: 5px; /* Уголки */
+}
+#name-input{
+    margin-top: 1%;
+}
+#btn-input{
+    margin-top: 3%;
+    min-height:50px
+}
+#id{
+    margin-top: 1%;
+    border-radius: 10px; /* Уголки */
+}
 .chat-window{
     bottom:0;
     position:fixed;

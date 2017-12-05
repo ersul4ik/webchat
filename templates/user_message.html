@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="{% static 'js/sentry.js' %}"></script>
     <link href="{% static 'fonts/css?family=Lobster' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/user.css' %}" rel="stylesheet">
@@ -35,7 +34,7 @@
                                    placeholder="Ваше имя..." name="client_name"/>
                             {% endif %}
                             <input id="btn-input" type="text" class="form-control input-sm chat_input"
-                                   placeholder="Ваше обращение..." required name="body"/>
+                                   placeholder="Ваше обращение..." autocomplete="off" required name="body"/>
                             <button class="form-control btn btn-primary btn-sm" id="id" type="submit">Отправить</button>
                         </div>
                     </form>

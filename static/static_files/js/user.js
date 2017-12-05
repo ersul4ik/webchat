@@ -1,3 +1,9 @@
+$(document).ready(function () {
+    if (!$('.name-input')) {
+        get_message()
+    }
+});
+
 $('#chat-form').on('submit', function (event) {
     event.preventDefault();
     $.ajax({
@@ -35,7 +41,7 @@ function get_message() {
             }
         })
         .fail(function (data) {
-            console.log('error receive');
+            console.log('not receive');
         })
         .always(
             setTimeout(get_message, 5000)
@@ -50,8 +56,3 @@ function read_message() {
     })
 }
 
-$(document).ready(function () {
-    if (!$('.name-input') || $('.msg_container_base').length > 0) {
-        get_message()
-    }
-});

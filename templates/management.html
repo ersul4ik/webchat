@@ -24,11 +24,13 @@
             </div>
             <div class="not-view">
                 <li class="list-group-item active" id="mess-receive">Непрочитанные</li>
-                {% for m in not_read_dialogs %}
-                    <a href="{% url 'dialog' m.id %}"
-                       class="list-group-item"
-                       id="message-receive">{{ m.get_dialog_title | truncatechars_html:20 }}</a>
-                {% endfor %}
+                <div class="append">
+                    {% for m in not_read_dialogs %}
+                        <a href="{% url 'dialog' m.id %}"
+                           class="list-group-item"
+                           id="message-receive">{{ m.get_dialog_title | truncatechars_html:20 }}</a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="col-md-8 view">
@@ -42,7 +44,6 @@
                         {{ form.dialog|attr:"hidden" }}
                             {% if dialog.manager is None or dialog.manager == request.user %}
                                 {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..." }}
-                                <p class="sent" id="manager_name">{{ request.user }}</p>
                                 </span>
                                 <button class="btn btn-primary btn-sm button-chat" type="submit">Отправить</button>
                                 <a href="{% url 'close' dialog.id %}" class="btn btn-danger btn-sm button-chat">Завершить</a>
