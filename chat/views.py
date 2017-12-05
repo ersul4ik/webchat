@@ -107,8 +107,9 @@ def message_create(request):
 
 
 # получение сообщений в левой части интерфейса оператора
+@csrf_exempt
 def messages_get_first(request):
-    dialog = Dialog.objects.filter(messages__read=False, messages__seen=False,
+    dialog = Dialog.objects.filter(messages__seen=False,
                                    is_active=True).distinct()
     context = ''
     for d in dialog:

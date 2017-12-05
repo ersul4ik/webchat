@@ -36,7 +36,7 @@ function get_first_message() {
             console.log('error receive');
         })
         .always(
-            setTimeout(get_first_message, 10000)
+            setTimeout(get_first_message, 7000)
         );
 }
 
@@ -66,7 +66,7 @@ function get_message() {
             console.log('error receive');
         })
         .always(
-            setTimeout(get_message, 8000)
+            setTimeout(get_message, 6000)
         );
 }
 
