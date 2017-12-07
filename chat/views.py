@@ -118,9 +118,10 @@ def messages_get_first(request):
     return HttpResponse(context)
 
 
+# помечение прочитаного диалога
 @csrf_exempt
 def messages_get_read(request):
-    dialog = get_object_or_404(Dialog, is_active=True)
+    dialog = get_object_or_404(Dialog,  Q(client=request.user) | Q(manager=request.user), is_active=True)
     dialog.messages.filter(seen=False).update(seen=True)
     return HttpResponse('Все ок')
 
