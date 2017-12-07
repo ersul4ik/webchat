@@ -1,5 +1,5 @@
 $(document).ready(function () {
-        get_first_message()
+    get_first_message()
 });
 
 $('#chat-form').on('submit', function (event) {
@@ -30,7 +30,6 @@ function get_first_message() {
     })
         .done(function (data) {
             $('.append').append(data);
-                get_read_message()
         })
         .fail(function (data) {
             console.log('error receive');
@@ -38,14 +37,6 @@ function get_first_message() {
         .always(
             setTimeout(get_first_message, 7000)
         );
-}
-
-function get_read_message() {
-        $.ajax({
-        url: "/messages/link/",
-        type: "POST",
-        async: false
-    })
 }
 
 function get_message() {

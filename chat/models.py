@@ -11,6 +11,7 @@ from django.utils.translation import ugettext as _
 class Dialog(models.Model):
     client = models.ForeignKey(User, verbose_name=_('Client'), related_name='dialogs')
     manager = models.ForeignKey(User, verbose_name=_('Manager'), null=True, blank=True)
+    unexplored = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -25,11 +26,6 @@ class Dialog(models.Model):
 
     def get_dialog_title(self):
         return 'Чат c "{}"'.format(self.client.first_name)
-
-    # def get_manager(self):
-    #     manager = self.manager
-    #     manager = random.choice
-    #     return manager
 
 
 class Message(models.Model):

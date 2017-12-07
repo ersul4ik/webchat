@@ -109,20 +109,22 @@ def message_create(request):
 # получение сообщений в левой части интерфейса оператора
 @csrf_exempt
 def messages_get_first(request):
-    dialog = Dialog.objects.filter(messages__seen=False,
-                                   is_active=True).distinct()
+    dialog = Dialog.objects.filter(unexplored=True)
     context = ''
     for d in dialog:
         if not d.manager:
             context += render_to_string('message_list.html', locals())
+            dialog.update(unexplored=False)
     return HttpResponse(context)
 
 
 # помечение прочитаного диалога
 @csrf_exempt
 def messages_get_read(request):
-    dialog = get_object_or_404(Dialog,  Q(client=request.user) | Q(manager=request.user), is_active=True)
-    dialog.messages.filter(seen=False).update(seen=True)
+    if request.method == "POST":
+        manager = None
+        dialog = Dialog.objects.filter(manager=manager, is_active=True)
+        dialog.filter(messages__seen=False).update(messages__seen=True)
     return HttpResponse('Все ок')
 
 
@@ -170,4 +172,3 @@ def create_user(request):
     user.username = request.session.session_key
     user.save()
     return user
-
