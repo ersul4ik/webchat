@@ -1,5 +1,10 @@
 $(document).ready(function () {
-    get_first_message()
+    if($('#receive_mess').length == 0){
+        get_first_message();
+    }
+    else{
+        get_message()
+    }
 });
 
 $('#chat-form').on('submit', function (event) {
@@ -23,13 +28,13 @@ $('#chat-form').on('submit', function (event) {
 });
 
 function get_first_message() {
-    console.log("ok");
     $.ajax({
         url: "/messages/seen/",
         type: "GET"
     })
         .done(function (data) {
-            $('.append').append(data);
+            $('.new_mess').append(data);
+
         })
         .fail(function (data) {
             console.log('error receive');
@@ -47,8 +52,10 @@ function get_message() {
     })
         .done(function (data) {
             $('.msg_container_base').append(data);
+
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
+
             if (data) {
                 read_message();
             }
@@ -61,6 +68,7 @@ function get_message() {
         );
 }
 
+
 function read_message() {
     $.ajax({
         url: "/messages/read/",
@@ -68,3 +76,4 @@ function read_message() {
         async: false
     })
 }
+

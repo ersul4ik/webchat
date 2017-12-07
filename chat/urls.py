@@ -19,5 +19,8 @@ urlpatterns = [
     url(r'^messages/read/$', views.messages_read, name='messages_read'),
     url(r'^messages/seen/$', views.messages_get_first, name='messages_get_first'),
 
+
+
+
 ]
 

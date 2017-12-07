@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Чаты</title>
-    <script src="{% static 'js/sentry.js' %}"></script>
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/chief.css' %}" rel="stylesheet">
@@ -17,14 +16,16 @@
         <div class="col-md-2">
             <div>
                 <li class="list-group-item active">Онлайн - чаты</li>
+                <div class="dialogs">
                 {% for d in read_dialogs %}
                     <a href="{% url 'dialog' d.id %}"
                        class="list-group-item">{{ d.get_dialog_title| truncatechars_html:20 }}</a>
                 {% endfor %}
+                </div>
             </div>
             <div class="not-view">
                 <li class="list-group-item active" id="mess-receive">Непрочитанные</li>
-                <div class="append">
+                <div class="new_mess">
                     {% for m in not_read_dialogs %}
                         <a href="{% url 'dialog' m.id %}"
                            class="list-group-item"

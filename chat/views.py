@@ -119,13 +119,23 @@ def messages_get_first(request):
 
 
 # помечение прочитаного диалога
-@csrf_exempt
-def messages_get_read(request):
-    if request.method == "POST":
-        manager = None
-        dialog = Dialog.objects.filter(manager=manager, is_active=True)
-        dialog.filter(messages__seen=False).update(messages__seen=True)
-    return HttpResponse('Все ок')
+# @csrf_exempt
+# def messages_get_read(request):
+#     if request.method == "POST":
+#         manager = None
+#         dialog = Dialog.objects.filter(manager=manager, is_active=True)
+#         dialog.filter(messages__seen=False).update(messages__seen=True)
+#     return HttpResponse('Все ок')
+
+
+# получение новых сообщений в диалоге
+# def following_message_get(request):
+#     dialog = get_object_or_404(Dialog, unexplored=False, is_active=True)
+#     context = ''
+#     for new_message in dialog.messages.filter(seen=False):
+#         context += render_to_string('message_list.html', locals())
+#         new_message.update(seen=True)
+#     return HttpResponse(context)
 
 
 # получение сообщений от отправителя
