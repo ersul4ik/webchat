@@ -61,10 +61,9 @@ def logout_view(request):
 
 @login_required
 def show_dialog(request, dialog_id):
-    read_dialogs = Dialog.objects.filter(is_active=True, messages__read=True).exclude(
-        manager__isnull=True).distinct()
-    not_read_dialogs = Dialog.objects.filter(is_active=True, messages__read=False).filter(
-        ~Q(messages__sender=request.user)).distinct()
+    read_dialogs = Dialog.objects.filter(is_active=True, messages__read=True,
+                                         messages__sender=request.user).exclude(manager__isnull=True).distinct()
+    not_read_dialogs = Dialog.objects.filter(is_active=True, messages__read=False).distinct()
 
     dialog = get_object_or_404(Dialog, id=dialog_id)
     if not dialog.manager:
@@ -76,10 +75,9 @@ def show_dialog(request, dialog_id):
 
 @login_required
 def management(request):
-    manager = request.user or None
-    read_dialogs = Dialog.objects.filter(is_active=True, manager=manager).exclude(manager__isnull=True).distinct()
-    not_read_dialogs = Dialog.objects.filter(messages__read=False,
-                                             is_active=True).distinct()
+    read_dialogs = Dialog.objects.filter(is_active=True, messages__read=True,
+                                         messages__sender=request.user).exclude(manager__isnull=True).distinct()
+    not_read_dialogs = Dialog.objects.filter(is_active=True, messages__read=False).distinct()
     return render(request, 'management.html', locals())
 
 
@@ -115,27 +113,17 @@ def messages_get_first(request):
         if not d.manager:
             context += render_to_string('message_list.html', locals())
             dialog.update(unexplored=False)
+            Message.objects.filter(seen=False).update(seen=True)
     return HttpResponse(context)
 
 
-# помечение прочитаного диалога
-# @csrf_exempt
-# def messages_get_read(request):
-#     if request.method == "POST":
-#         manager = None
-#         dialog = Dialog.objects.filter(manager=manager, is_active=True)
-#         dialog.filter(messages__seen=False).update(messages__seen=True)
-#     return HttpResponse('Все ок')
-
-
-# получение новых сообщений в диалоге
-# def following_message_get(request):
-#     dialog = get_object_or_404(Dialog, unexplored=False, is_active=True)
-#     context = ''
-#     for new_message in dialog.messages.filter(seen=False):
-#         context += render_to_string('message_list.html', locals())
-#         new_message.update(seen=True)
-#     return HttpResponse(context)
+def messages_following_get(request):
+    new_mess_in_dialog = Dialog.objects.filter(unexplored=False, messages__seen=False)
+    context = ''
+    for mess in new_mess_in_dialog:
+            context += render_to_string('following_messages.html', locals())
+            Message.objects.filter(seen=False, read=False).update(seen=True, read=True)
+    return HttpResponse(context)
 
 
 # получение сообщений от отправителя

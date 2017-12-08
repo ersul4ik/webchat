@@ -1,9 +1,15 @@
 $(document).ready(function () {
-    if($('#receive_mess').length == 0){
+    if ($('#receive_mess').length == 0) {
         get_first_message();
     }
-    else{
+    else {
         get_message()
+    }
+    if ($('#dialogs').length == 1) {
+
+        get_following_messages()
+    }
+    else {
     }
 });
 
@@ -68,6 +74,22 @@ function get_message() {
         );
 }
 
+function get_following_messages() {
+    $.ajax({
+        url: "/messages/receive/",
+        type: "GET"
+    })
+        .done(function (data) {
+            $('.new_mess').append(data);
+
+        })
+        .fail(function (data) {
+            console.log('error receive');
+        })
+        .always(
+            setTimeout(get_following_messages, 6000)
+        );
+}
 
 function read_message() {
     $.ajax({
