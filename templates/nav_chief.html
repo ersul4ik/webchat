@@ -8,26 +8,34 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/management">Чат-помощник</a>
+            {% if request.user.is_staff %}
+            <a class="navbar-brand" href="/supervisor/">Чат-помощник</a>
+            {% else %}
+            <a class="navbar-brand" href="/management/">Чат-помощник</a>
+            {% endif %}
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
 
-            <form class="navbar-form navbar-right">
-                <div hidden class="form-group">
+        <form class="navbar-form navbar-right">
+            <div hidden class="form-group">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 
-                        {% if request.user.is_superuser %}Администратор: {% else %} Пользователь: {% endif %} {{ request.user.username }}
+                        {% if request.user.is_superuser %}Администратор: {% else %}
+                            Пользователь: {% endif %} {{ request.user.username }}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        {% if request.user.is_staff %}
+                            <li><a href="/register/">Регистрация операторов</a></li>
+                        {% endif %}
                         <li><a href="{% url 'logout' %}">Выйты</a></li>
                     </ul>
                 </div>
-                </div>
-            </form>
-        </div><!-- /.navbar-collapse -->
+            </div>
+        </form>
+    </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

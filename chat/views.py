@@ -81,6 +81,14 @@ def management(request):
     return render(request, 'management.html', locals())
 
 
+@login_required
+def staff_management(request):
+    read_dialogs = Dialog.objects.filter(is_active=True, messages__read=True,
+                                         ).exclude(manager__isnull=True).distinct()
+    not_read_dialogs = Dialog.objects.filter(is_active=True, messages__read=False).distinct()
+    return render(request, 'staff.html', locals())
+
+
 # деактивирование диалога
 @login_required
 def close_dialog(request, dialog_id):

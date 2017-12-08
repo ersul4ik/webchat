@@ -27,6 +27,10 @@ class Dialog(models.Model):
     def get_dialog_title(self):
         return 'Чат c "{}"'.format(self.client.first_name)
 
+    def get_dialog_detail(self):
+        manager = self.manager.first_name
+        return '{} и {}'.format(self.client.first_name, manager)
+
 
 class Message(models.Model):
     dialog = models.ForeignKey(Dialog, verbose_name=_("Dialogs"), related_name="messages")
