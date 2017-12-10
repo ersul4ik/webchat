@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import time
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -120,6 +121,7 @@ def messages_get_first(request):
     for d in dialog:
         if not d.manager:
             context += render_to_string('message_list.html', locals())
+            time.sleep(5)
             dialog.update(unexplored=False)
             Message.objects.filter(seen=False).update(seen=True)
     return HttpResponse(context)
