@@ -23,7 +23,7 @@ SECRET_KEY = 'kc6plb5r=fx*n0o-msw+!v3ik@iq%=-s_$6^s1f2f(xd@4mos#'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.get_value('DEBUG', default=True)
+DEBUG = env.get_value('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chat',
 
+    'corsheaders',
     'widget_tweaks',
     'raven.contrib.django.raven_compat',
 
@@ -103,6 +104,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
     'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'webchat.urls'

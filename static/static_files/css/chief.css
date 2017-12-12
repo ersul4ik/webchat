@@ -1,3 +1,13 @@
+body{
+    min-height: 100%;
+    position: relative;
+}
+.login-form{
+    position: inherit;
+}
+.title-login{
+    text-align: center;
+}
 .msg_sent{
     padding-bottom:20px !important;
     margin-right:0;
