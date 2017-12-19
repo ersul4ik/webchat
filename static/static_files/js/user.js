@@ -4,12 +4,13 @@ $(document).ready(function () {
     }
 });
 
-$('#chat-form').on('submit', function (event) {
-    event.preventDefault();
+$('#chat-form').on('submit', function (e) {
+    e.preventDefault();
     $.ajax({
-        url: '/chat/',
+        url: 'http://127.0.0.1:8000/chat/',
         type: $(this).attr('method'),
-        data: $(this).serialize()
+        data: $(this).serialize(),
+        crossDomain: false
     })
         .done(function (data) {
             $('.name-input').remove();
@@ -18,19 +19,22 @@ $('#chat-form').on('submit', function (event) {
 
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
+
             get_message()
         })
         .fail(function (data) {
-            console.log(data)
+            console.log('ajax method fail')
         });
     return false;
 });
 
 function get_message() {
     $.ajax({
-        url: "/messages/get/",
+        url: "http://127.0.0.1:8000/messages/get/",
         type: "GET",
-        async: false
+        async: false,
+        crossDomain: false
+
     })
         .done(function (data) {
             $('.msg_container_base').append(data);
@@ -50,9 +54,11 @@ function get_message() {
 
 function read_message() {
     $.ajax({
-        url: "/messages/read/",
+        url: "http://127.0.0.1:8000/messages/read/",
         type: "POST",
-        async: false
+        async: false,
+        crossDomain: false
+
     })
 }
 

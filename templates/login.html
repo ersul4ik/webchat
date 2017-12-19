@@ -1,4 +1,4 @@
-{% load static widget_tweaks%}
+{% load static widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,31 +12,33 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4 text-center">
-            <div class="search-box">
-                <div class="caption">
-                    <h3>Чат помощник</h3>
-                </div>
-                <form action="" class="loginForm" method="POST">
+        <div class="Absolute-Center is-Responsive">
+            <div id="logo-container"></div>
+            <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <form action="" id="loginForm" method="POST">
                     {% csrf_token %}
                     {% if form.errors %}
                         <div class="alert alert-danger">{{ form.non_field_errors }}</div>
                     {% endif %}
-                    <div class="input-group">
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         {{ form.username|add_class:"form-control"|attr:"placeholder:Ваше имя..."|attr:"id=name" }}
                     </div>
-                    <div class="input-group">
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                         {{ form.password|add_class:"form-control"|attr:"placeholder:Ваш пароль..."|attr:"id=paw" }}
                     </div>
-                    <div class="input-group">
-						<input type="submit" id="submit" class="form-control" value="Submit">
+                    <div class="form-group">
+                        <input type="submit" id="submit" class="form-control" value="Войти">
                     </div>
+                    {#                    <div class="form-group text-center">#}
+                    {#                        <a href="#">Forgot Password</a>&nbsp;|&nbsp;<a href="#">Support</a>#}
+                    {#                    </div>#}
                 </form>
             </div>
         </div>
-            </div>
-        </div>
     </div>
+</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 <script src="{% static 'js/login.js' %}"></script>

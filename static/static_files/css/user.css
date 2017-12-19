@@ -3,19 +3,33 @@ body{
     position: fixed;
     bottom: 0;
 }
+#chat_right{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 50%;
+}
 #chat_window_1{
+    border-radius: 20px 10px 5px 0;
     display: none;
 }
 .col-md-2, .col-md-10{
     padding:0;
 }
-.panel{
+.panel {
     margin-bottom: 0px;
 }
 #name-input, #btn-input{
     border-radius: 5px; /* Уголки */
+
+}
+#btn-input{
+    border-radius: 0px 10px 10px 0;
+    margin-bottom: 5px;
 }
 #name-input{
+    border-radius: 16px 10px 50px 0;
     margin-top: 1%;
 }
 #btn-input{
@@ -41,7 +55,7 @@ body{
 .msg_container_base{
   background: #e5e5e5;
   margin: 0;
-  padding: 0 10px 10px;
+  padding: 0 0 0;
   max-height:300px;
   overflow-x:hidden;
 }
@@ -76,7 +90,7 @@ body{
     color: #ccc;
 }
 .msg_container {
-    padding: 10px;
+    margin: 7px;
     overflow: hidden;
     display: flex;
 }

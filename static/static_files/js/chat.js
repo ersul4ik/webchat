@@ -7,6 +7,20 @@ $(document).ready(function() {
     $this.addClass('panel-collapsed');
 
 });
+$(document).on('click', '.panel-heading h3.chat-open', function (e) {
+    var $this = $(this);
+    if (!$this.hasClass('panel-collapsed')) {
+        $this.parents('.panel').find('.panel-body').slideUp();
+        $this.parents('.panel').find('.panel-footer').slideUp();
+        // $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+        $this.addClass('panel-collapsed');
+    } else {
+        $this.parents('.panel').find('.panel-body').slideDown();
+        $this.parents('.panel').find('.panel-footer').slideDown();
+        $this.removeClass('panel-collapsed');
+        // $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+    }
+});
 $(document).on('click', '.panel-heading span.icon_minim', function (e) {
     var $this = $(this);
     if (!$this.hasClass('panel-collapsed')) {

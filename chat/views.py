@@ -11,6 +11,7 @@ from django.utils.crypto import get_random_string
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.vary import vary_on_headers
 from django.views.generic.edit import FormView
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -138,8 +139,7 @@ def messages_following_get(request):
 
 # получение сообщений от отправителя
 def messages_get(request):
-    dialog = get_object_or_404(Dialog, Q(client=request.user) | Q(manager=request.user),
-                               is_active=True)
+    dialog = Dialog.objects.filter(Q(client=request.user) | Q(manager=request.user), is_active=True)
     context = ''
     for m in dialog.messages.filter(read=False):
         if request.user != m.sender:
@@ -154,9 +154,13 @@ def messages_read(request):
     return HttpResponse('Все ок')
 
 
+# @vary_on_headers('HTTP_X_REQUESTED_WITH')
 @csrf_exempt
 def client_dialog(request):
     user = request.user
+    if user.is_authenticated:
+        dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
+
     if request.is_ajax():
         if not user.is_authenticated:
             user = create_user(request)
@@ -164,9 +168,6 @@ def client_dialog(request):
         initial = {'dialog': dialog.id, 'sender': user.id, 'body': request.POST.get('body', '')}
         request.POST = initial
         return message_create(request)
-
-    if user.is_authenticated:
-        dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
 
     return render(request, 'user_message.html', locals())
 

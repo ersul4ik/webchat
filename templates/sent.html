@@ -2,7 +2,11 @@
     <div class="col-md-10 col-xs-10">
         <div class="messages msg_sent">
             <p class="message_text">{{ m.body }}</p>
+            {% if user.has_usable_password %}
+            <time datetime="">{{ m.created_at }} {{ m.dialog.manager }}</time>
+            {% else %}
             <time datetime="">{{ m.created_at }}</time>
+            {% endif %}
         </div>
     </div>
     <div class="col-md-2 col-xs-2 avatar">
