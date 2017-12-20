@@ -43,6 +43,8 @@ function get_message() {
             if (data) {
                 read_message();
             }
+
+
         })
         .fail(function (data) {
             console.log('not receive');
