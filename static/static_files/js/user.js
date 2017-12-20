@@ -7,7 +7,7 @@ $(document).ready(function () {
 $('#chat-form').on('submit', function (e) {
     e.preventDefault();
     $.ajax({
-        url: 'http://127.0.0.1:8000/chat/',
+        url: "http://127.0.0.1:8000/chat/",
         type: $(this).attr('method'),
         data: $(this).serialize(),
         crossDomain: false
