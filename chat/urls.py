@@ -12,8 +12,11 @@ urlpatterns = [
 
     # итерфейс супервизора:
     url(r'^supervisor/$', views.staff_management, name='management'),
+    url(r'^management/operator/$', views.show_operators, name='show_operators'),
     url(r'^management/dialog/(?P<dialog_id>\S+)/$', views.show_dialog, name='dialog'),
     url(r'^management/active/(?P<dialog_id>\S+)/$', views.close_dialog, name='close'),
+
+
 
     # интерфейс пользователя:
     url(r'^chat/$', views.client_dialog, name='show_client_dialog'),

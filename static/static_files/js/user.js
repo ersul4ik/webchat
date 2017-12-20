@@ -61,4 +61,3 @@ function read_message() {
 
     })
 }
-

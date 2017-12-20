@@ -24,6 +24,9 @@ class Dialog(models.Model):
             manager = self.manager.first_name
         return '{} и {}'.format(self.client.first_name, manager)
 
+    def get_name_manager(self):
+        return '{}'.format(self.manager.first_name)
+
     def get_dialog_title(self):
         return 'Чат c "{}"'.format(self.client.first_name)
 

@@ -91,6 +91,13 @@ def staff_management(request):
     return render(request, 'staff.html', locals())
 
 
+def show_operators(request):
+    all_operators = User.objects.filter(is_active=True)
+    for operator in all_operators:
+        if operator.has_usable_password:
+            return render(request, 'management.html', locals())
+
+
 # деактивирование диалога
 @login_required
 def close_dialog(request, dialog_id):

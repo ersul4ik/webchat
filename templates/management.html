@@ -32,6 +32,13 @@
                 </div>
             </div>
         </div>
+{#        <div class="col-md-12">#}
+{#            {% for oper in all_operators %}#}
+{#                <a href="{% url 'show_operators'  %}"#}
+{#                           class="list-group-item"#}
+{#                           id="message-receive">{{ oper.username }}</a>#}
+{#            {% endfor %}#}
+{#        </div>#}
         <div class="col-md-8 view">
             {% if dialog %}
                 {% include 'message_view.html' %}

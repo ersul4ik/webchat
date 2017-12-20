@@ -30,6 +30,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         {% if request.user.is_staff %}
                             <li><a href="/register/">Регистрация операторов</a></li>
+                            <li><a href="{% url 'show_operators' %}">Операторы</a></li>
                         {% endif %}
                         <li><a href="{% url 'logout' %}">Выйты</a></li>
                     </ul>
