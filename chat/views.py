@@ -15,7 +15,7 @@ from django.views.decorators.vary import vary_on_headers
 from django.views.generic.edit import FormView
 from django.shortcuts import render, get_object_or_404, redirect
 
-from chat.forms import MessageForm
+from chat.forms import MessageForm, ProfileForm
 from chat.models import Dialog, Message
 
 
@@ -31,6 +31,7 @@ class RegisterFormView(FormView):
 
     def form_valid(self, form):
         # Создаём пользователя, если данные в форму были введены корректно.
+        form.first_name = form.data['first_name']
         form.save()
 
         # Вызываем метод базового класса
@@ -100,6 +101,10 @@ def show_operator_room(request, operator_id):
     operator_detail = User.objects.filter(id=operator_id)
     dialog = Dialog.objects.filter(manager=operator_id).count()
     return render(request, 'management.html', locals())
+
+
+def testing(request):
+    return render(request, 'test.html', locals())
 
 
 def operator_drop(request, operator_id):
