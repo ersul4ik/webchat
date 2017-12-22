@@ -96,6 +96,17 @@ def show_operators(request):
     return render(request, 'management.html', locals())
 
 
+def show_operator_room(request, operator_id):
+    operator_detail = User.objects.filter(id=operator_id)
+    dialog = Dialog.objects.filter(manager=operator_id).count()
+    return render(request, 'management.html', locals())
+
+
+def operator_drop(request, operator_id):
+    operator = User.objects.filter(id=operator_id, is_active=True).update(is_active=False)
+    return HttpResponseRedirect("/management/operator/")
+
+
 # деактивирование диалога
 @login_required
 def close_dialog(request, dialog_id):

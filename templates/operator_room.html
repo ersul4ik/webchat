@@ -1,0 +1,46 @@
+{% load static %}
+<div class="container jumbotron"> <!-- main block -->
+    <form action="" class="form-horizontal" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="col-md-4 col-md-offset-1">
+            <div class="thumbnail operator-img">
+                <img src="https://st2.depositphotos.com/1734074/6981/v/950/depositphotos_69814693-stock-illustration-call-center-operator-icon.jpg"
+                     class="oper-imag">
+            </div>
+        </div>
+        {% for operator in operator_detail %}
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-3"><label for="">Имя: </label></div>
+                        <div class="col-md-9" style="right: 80px">{{ operator.first_name }}</div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-3"><label for="">Пользователь: </label></div>
+                        <div class="col-md-9" style="right: 20px">{{ operator }}</div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-5"><label for="">Последний вход: </label></div>
+                        <div class="col-md-5" style="right: 80px">{{ operator.last_login }}</div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-5"><label for="">Количество диалогов: </label></div>
+                        <div class="col-md-4" style="right: 50px">{{ dialog }}</div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <a href="{% url 'operator_drop' operator.id %}" class="btn btn-primary btn-danger" type="submit">Удалить</a>
+{#                    <button class="btn btn-primary btn-info" type="submit">Сохранить</button>#}
+                </div>
+            </div>
+        {% endfor %}
+
+    </form>
+</div> <!-- main block -->

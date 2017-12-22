@@ -7,59 +7,93 @@
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/chief.css' %}" rel="stylesheet">
+    <link href="{% static 'css/operator_room.css' %}" rel="stylesheet">
+
 </head>
 <body>
 {% if user.has_usable_password %}
     {% include 'nav_chief.html' %}
     <div class="header">
     <div class="col-md-12">
-        <div class="col-md-2">
-            <div>
-                <li class="list-group-item active">Онлайн - чаты</li>
-                {% for d in read_dialogs %}
-                    <a href="{% url 'dialog' d.id %}"
-                       class="list-group-item" id="dialogs">{{ d.get_dialog_detail| truncatechars_html:20 }}</a>
-                {% endfor %}
-            </div>
-            <div class="not-view">
-                <li class="list-group-item active" id="mess-receive">Непрочитанные</li>
-                <div class="new_mess">
-                    {% for m in not_read_dialogs %}
-                        <a href="{% url 'dialog' m.id %}"
-                           class="list-group-item"
-                           id="message-receive">{{ m.get_dialog_title | truncatechars_html:20 }}</a>
-                    {% endfor %}
+        {% if operator_detail %}
+            {% include 'operator_room.html' %}
+        {% else %}
+            {% if all_operators %}
+                <div class="col-md-12 oper-table">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Пользователь</th>
+                            <th>Последний вход</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for operator in all_operators %}
+                            {% if operator.has_usable_password %}
+                                <tr>
+                                    <td><a href="{% url 'show_operator_room' operator.id %}">{{ operator.first_name }}</a></td>
+                                    <td>{{ operator }}</td>
+                                    <td>{{ operator.last_login }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-8 view">
-            {% if dialog %}
-                {% if not dialog.is_active %}
-                <h4 class="text-center">Диалог завершён</h4>
-                    {% endif %}
-                {% include 'message_view.html' %}
-                <form method="post" action="{% url 'message_create' %}" id="chat-form">
-                    <div class="input-group">
-                        {% csrf_token %}
-                        <span class="input-group-btn">
+
+            {% else %}
+                <div class="col-md-2">
+                    <div>
+                        <li class="list-group-item active">Онлайн - чаты</li>
+                        {% for d in read_dialogs %}
+                            <a href="{% url 'dialog' d.id %}"
+                               class="list-group-item" id="dialogs">{{ d.get_dialog_detail| truncatechars_html:20 }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="not-view">
+                        <li class="list-group-item active" id="mess-receive">Непрочитанные</li>
+                        <div class="new_mess">
+                            {% for m in not_read_dialogs %}
+                                <a href="{% url 'dialog' m.id %}"
+                                   class="list-group-item"
+                                   id="message-receive">{{ m.get_dialog_title | truncatechars_html:20 }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 view">
+                    {% if dialog %}
+                        {% if not dialog.is_active %}
+                            <h4 class="text-center">Диалог завершён</h4>
+                        {% endif %}
+                        {% include 'message_view.html' %}
+                        <form method="post" action="{% url 'message_create' %}" id="chat-form">
+                            <div class="input-group">
+                                {% csrf_token %}
+                                <span class="input-group-btn">
                         {{ form.sender|attr:"hidden" }}
                         {{ form.dialog|attr:"hidden" }}
-                            {% if dialog.manager is None or dialog.manager == request.user or request.user != user.is_superuser %}
-                                {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..." }}
-                                </span>
-                                <button class="btn btn-primary btn-sm button-chat" type="submit">Отправить</button>
-                                <a href="{% url 'close' dialog.id %}" class="btn btn-danger btn-sm button-chat">Завершить</a>
-                            {% else %}
-                                <h4 class="text-center">Переписка с {{ dialog.manager }}</h4>
-                                </div>
-                            {% endif %}
-                </form>
+                                    {% if dialog.manager is None or dialog.manager == request.user or request.user != user.is_superuser %}
+                                        {{ form.body|add_class:"form-control input-sm chat_input"|attr:"rows:5"|attr:"cols:50"|attr:"placeholder:Ваше обращение..." }}
+                                        </span>
+                                        <button class="btn btn-primary btn-sm button-chat" type="submit">Отправить
+                                        </button>
+                                        <a href="{% url 'close' dialog.id %}" class="btn btn-danger btn-sm button-chat">Завершить</a>
+                                    {% else %}
+                                        <h4 class="text-center">Переписка с {{ dialog.manager }}</h4>
+                                        </div>
+                                    {% endif %}
+                        </form>
+                    {% endif %}
+                </div>
+                <script src="{% static 'js/jquery-3.1.0.js' %}"></script>
+                <script src="{% static 'js/chief.js' %}"></script>
+                <script src="{% static 'js/bootstrap.js' %}"></script>
+                </div>
             {% endif %}
-        </div>
-        <script src="{% static 'js/jquery-3.1.0.js' %}"></script>
-        <script src="{% static 'js/chief.js' %}"></script>
-        <script src="{% static 'js/bootstrap.js' %}"></script>
-    </div>
+        {% endif %}
 {% else %}
     <div class="col-md-4 col-md-offset-4">
         <li><a href="{% url 'logout' %}">Авторизоваться</a></li>
