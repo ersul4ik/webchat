@@ -32,15 +32,11 @@
                 </div>
             </div>
         </div>
-{#        <div class="col-md-12">#}
-{#            {% for oper in all_operators %}#}
-{#                <a href="{% url 'show_operators'  %}"#}
-{#                           class="list-group-item"#}
-{#                           id="message-receive">{{ oper.username }}</a>#}
-{#            {% endfor %}#}
-{#        </div>#}
         <div class="col-md-8 view">
             {% if dialog %}
+                {% if not dialog.is_active %}
+                <h4 class="text-center">Диалог завершён</h4>
+                    {% endif %}
                 {% include 'message_view.html' %}
                 <form method="post" action="{% url 'message_create' %}" id="chat-form">
                     <div class="input-group">

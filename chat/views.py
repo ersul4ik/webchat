@@ -93,9 +93,7 @@ def staff_management(request):
 
 def show_operators(request):
     all_operators = User.objects.filter(is_active=True)
-    for operator in all_operators:
-        if operator.has_usable_password:
-            return render(request, 'management.html', locals())
+    return render(request, 'management.html', locals())
 
 
 # деактивирование диалога
@@ -165,11 +163,10 @@ def messages_read(request):
 @csrf_exempt
 def client_dialog(request):
     user = request.user
-    if user.is_authenticated:
+    if not user.is_anonymous:
         dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
-
     if request.is_ajax():
-        if not user.is_authenticated:
+        if user.is_anonymous:
             user = create_user(request)
         dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
         initial = {'dialog': dialog.id, 'sender': user.id, 'body': request.POST.get('body', '')}
@@ -177,6 +174,7 @@ def client_dialog(request):
         return message_create(request)
 
     return render(request, 'user_message.html', locals())
+# is_authenticated() vs. is_anonymous()
 
 
 def create_user(request):
