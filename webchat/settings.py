@@ -1,37 +1,24 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
-
 
 import os
 import environ
-import raven
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'kc6plb5r=fx*n0o-msw+!v3ik@iq%=-s_$6^s1f2f(xd@4mos#'
 
 # Деактивирует сессию если браузер закроется
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.get_value('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = '/login/'
-
-RAVEN_CONFIG = {
-    # 'dsn': 'https://04f8f2235e4240618582db8be0ee5b7f:cecb6460776f4b76be3aa09e62c8511c@sentry.io/252877',
-}
 
 LOGGING = {
     'version': 1,
@@ -48,7 +35,7 @@ LOGGING = {
     },
     'handlers': {
         'sentry': {
-            'level': 'ERROR', # To capture more than ERROR, change to WARNING, INFO, etc.
+            'level': 'ERROR',  # To capture more than ERROR, change to WARNING, INFO, etc.
             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
             'tags': {'custom-tag': 'x'},
         },
@@ -77,8 +64,6 @@ LOGGING = {
     },
 }
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -90,14 +75,10 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'widget_tweaks',
-    'raven.contrib.django.raven_compat',
-
 ]
-
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -105,41 +86,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
-
 ]
 
-# ERROR : No "Access-Control-Allow-Origin"
 CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ORIGIN_WHITELIST = (
-    'google.com',
-    'hostname.example.com',
-    'localhost:8000',
-    '127.0.0.1:8000'
-)
-
-CORS_ALLOW_METHODS = (
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-)
-
-CORS_ALLOW_HEADERS = (
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-)
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'webchat.urls'
 
@@ -161,15 +111,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'webchat.wsgi.application'
 
-
 default_db = 'sqlite:///{}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
 DATABASES = {
     'default': env.db('DATABASE_URL', default=default_db)
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -186,29 +131,39 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
-
 LANGUAGE_CODE = 'Ru-ru'
-
 TIME_ZONE = 'Asia/Bishkek'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static', 'static_files'),
+    # На проде статика раздается отюда
+    os.path.join(BASE_DIR, 'static', 'custom'),
+    os.path.join(BASE_DIR, 'static', 'vendor'),
+
+    # В дебаге статика раздается отюда
+    os.path.join(BASE_DIR, 'static_files', 'custom'),
+    os.path.join(BASE_DIR, 'static_files', 'vendor'),
 )
 
+# Если дебаг отключен, включаем sentry
+if not DEBUG:
+    import raven
+    MIDDLEWARE += [
+        'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+        'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+    ]
+
+    INSTALLED_APPS += [
+        'raven.contrib.django.raven_compat',
+    ]
+
+    RAVEN_CONFIG = {
+        'dsn': 'https://04f8f2235e4240618582db8be0ee5b7f:cecb6460776f4b76be3aa09e62c8511c@sentry.io/252877',
+        'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
+    }
