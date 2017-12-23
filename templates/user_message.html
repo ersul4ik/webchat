@@ -1,35 +1,28 @@
-{% load static widget_tweaks %}
-<div class="container" id="chat_right">
-    <div class="row chat-window col-xs-5 col-md-3" id="chat_window_1" style="margin-left:10px; right:1px;">
-        <div class="col-xs-12 col-md-12">
-            <div class="panel panel-default" id="chat-border">
-                <div class="panel-heading top-bar">
-                    <div class="col-md-8 col-xs-8">
-                        <h3 class="panel-title article chat-open"><span class="glyphicon glyphicon-comment"></span>
-                            Помощник</h3>
-                    </div>
-                    <div class="col-md-4 col-xs-4" style="text-align: right;">
-                        <a href="#"><span id="minim_chat_window"
-                                          class="glyphicon glyphicon-minus icon_minim"></span></a>
-                        <a href="#"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>
-                    </div>
-                </div>
-                {% include 'message_view.html' %}
-                <div class="panel-footer">
-                    <form method="POST" id="chat-form" action="{% url 'message_create' %}">
-                        {% csrf_token %}
-                        <div class="input-group">
-                            {% if not request.user.is_authenticated %}
-                                <input id="name-input" type="text" class="form-control input-sm chat_input name-input"
-                                       placeholder="Ваше имя..." name="client_name"/>
-                            {% endif %}
-                            <input id="btn-input" type="text" class="form-control input-sm chat_input"
-                                   placeholder="Ваше обращение..." autocomplete="off" required name="body"/>
-                            <button class="form-control btn btn-primary btn-sm" id="id" type="submit">Отправить</button>
-                        </div>
-                    </form>
-                </div>
+<div class="panel panel-default">
+    <div class="panel-heading top-bar">
+        <div class="container-fluid">
+            <div class="col-md-8 col-xs-8">
+                <h3 class="panel-title article chat-open"><span class="glyphicon glyphicon-comment"></span>Помощник</h3>
+            </div>
+            <div class="col-md-4 col-xs-4" style="text-align: right;">
+                <a href="#"><span id="minim_chat_window"
+                                  class="glyphicon glyphicon-minus icon_minim"></span></a>
+                <a href="#"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>
             </div>
         </div>
+    </div>
+    {% include 'message_view.html' %}
+    <div class="panel-footer">
+        <form method="POST" id="chat-form" data-action="{% url 'message_create' %}">
+            {% csrf_token %}
+            <div class="input-group">
+                {% if not request.user.is_authenticated %}
+                    <input type="text" class="form-control input-sm chat_input name-input"
+                           placeholder="Ваше имя..." name="client_name"/>
+                {% endif %}
+                <input type="text" class="form-control input-sm chat_input" placeholder="Ваше обращение..." required name="body"/>
+                <button class="form-control btn btn-primary btn-sm" type="submit">Отправить</button>
+            </div>
+        </form>
     </div>
 </div>

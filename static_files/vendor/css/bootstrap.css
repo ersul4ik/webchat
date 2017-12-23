@@ -261,7 +261,7 @@ th {
   }
 }
 @font-face {
-  font-family: 'glyphicons Halflings';
+  font-family: 'Glyphicons Halflings';
 
   src: url('../fonts/glyphicons-halflings-regular.eot');
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
@@ -270,7 +270,7 @@ th {
   position: relative;
   top: 1px;
   display: inline-block;
-  font-family: 'glyphicons Halflings';
+  font-family: 'Glyphicons Halflings';
   font-style: normal;
   font-weight: normal;
   line-height: 1;
@@ -5460,6 +5460,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-heading {
   padding: 10px 15px;
+  border-bottom: 1px solid transparent;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }

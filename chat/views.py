@@ -7,15 +7,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.http import JsonResponse
 from django.utils.crypto import get_random_string
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.vary import vary_on_headers
 from django.views.generic.edit import FormView
 from django.shortcuts import render, get_object_or_404, redirect
 
-from chat.forms import MessageForm, ProfileForm
+from chat.forms import MessageForm
 from chat.models import Dialog, Message
 
 
@@ -46,6 +46,7 @@ class LoginFormView(FormView):
 
     # В случае успеха перенаправим на главную.
     success_url = "/management/"
+    user = None
 
     def form_valid(self, form):
         # Получаем объект пользователя на основе введённых в форму данных.
@@ -108,7 +109,7 @@ def testing(request):
 
 
 def operator_drop(request, operator_id):
-    operator = User.objects.filter(id=operator_id, is_active=True).update(is_active=False)
+    User.objects.filter(id=operator_id, is_active=True).update(is_active=False)
     return HttpResponseRedirect("/management/operator/")
 
 
@@ -160,9 +161,11 @@ def messages_following_get(request):
 
 # получение сообщений от отправителя
 def messages_get(request):
-    dialog = Dialog.objects.filter(Q(client=request.user) | Q(manager=request.user), is_active=True)
+    messages = Message.objects.filter(
+        Q(dialog__client=request.user) | Q(dialog__manager=request.user),
+        dialog__is_active=True, read=False)
     context = ''
-    for m in dialog.messages.filter(read=False):
+    for m in messages:
         if request.user != m.sender:
             context += render_to_string('receive.html', locals())
     return HttpResponse(context)
@@ -181,7 +184,7 @@ def client_dialog(request):
     user = request.user
     if not user.is_anonymous:
         dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
-    if request.is_ajax():
+    if 'create' in request.GET:
         if user.is_anonymous:
             user = create_user(request)
         dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
