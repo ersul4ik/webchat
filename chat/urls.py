@@ -30,8 +30,4 @@ urlpatterns = [
 
     # тестовый
     url(r'urmat/$', views.testing, name='testing'),
-
-    # url(r'c/', views.check_auth),
-    # url(r'l/', views.login_ajax),
 ]
-

@@ -5,5 +5,5 @@ __pycache__
 myvenv
 db.sqlite3
 .DS_Store
-collect_static/
+static/
 .env
