@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http import JsonResponse
 from django.utils.crypto import get_random_string
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
