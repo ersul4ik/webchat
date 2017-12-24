@@ -6,6 +6,7 @@ var ChatNode = $('<div class="webchat" id="webchat"></div>');
 
 $(document).ready(function () {
         $('body').append(ChatNode);
+        $('#webchat').fadeIn();
         LoadWebChat(ChatNode);
         if ($('.name-input').length === 0) {
             get_message(ChatNode)
@@ -15,6 +16,7 @@ $(document).ready(function () {
 
 // Загружает чат и вставляет в нужный элемент
 function LoadWebChat(node) {
+
     var url = $('#webchatJS').data('url') + 'chat/';
     $.ajax(url, {
         method: 'GET',
@@ -98,7 +100,7 @@ function read_message() {
 }
 
 $(document).ready(function() {
-    $("#chat_window_1").fadeIn(500); // плавное появление блока "чата"
+    $("#webchat").fadeIn(500); // плавное появление блока "чата"
     var $this = $('#minim_chat_window');
     $this.parents('.panel').find('.panel-body').slideUp();
     $this.parents('.panel').find('.panel-footer').slideUp();

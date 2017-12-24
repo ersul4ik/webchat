@@ -2,7 +2,10 @@
     <div class="panel-heading top-bar">
         <div class="container-fluid">
             <div class="col-md-8 col-xs-8">
-                <h3 class="panel-title article chat-open"><span class="glyphicon glyphicon-comment"></span>Помощник</h3>
+                <div class="chat-title">
+                    <h3 class="panel-title article chat-open"><span class="glyphicon glyphicon-comment"></span>Помощник
+                    </h3>
+                </div>
             </div>
             <div class="col-md-4 col-xs-4" style="text-align: right;">
                 <a href="#"><span id="minim_chat_window"
@@ -13,15 +16,16 @@
     </div>
     {% include 'message_view.html' %}
     <div class="panel-footer">
-        <form method="POST" id="chat-form" data-action="{% url 'message_create' %}">
+        <form method="POST" id="chat-form" data-action="{% url 'message_create' %}" style="padding-left: 8%;">
             {% csrf_token %}
             <div class="input-group">
                 {% if not request.user.is_authenticated %}
-                    <input type="text" class="form-control input-sm chat_input name-input"
+                    <input type="text" class="form-control input-sm chat_input name-input" id="user-name"
                            placeholder="Ваше имя..." name="client_name"/>
                 {% endif %}
-                <input type="text" class="form-control input-sm chat_input" placeholder="Ваше обращение..." required name="body"/>
-                <button class="form-control btn btn-primary btn-sm" type="submit">Отправить</button>
+                <input type="text" class="form-control input-sm chat_input" id="user-text"
+                       placeholder="Ваше обращение..." required name="body"/>
+                <button id="button-user" type="submit">Отправить</button>
             </div>
         </form>
     </div>

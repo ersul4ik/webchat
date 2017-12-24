@@ -95,7 +95,9 @@ function read_message() {
     $.ajax({
         url: "/messages/read/",
         type: "POST",
-        async: false
+        async: false,
+        crossDomain: true,
+        xhrFields: {withCredentials: true}
     })
 }
 

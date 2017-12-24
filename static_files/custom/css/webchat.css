@@ -1,106 +1,190 @@
 .webchat {
+    visibility: visible;
+    position: fixed;
+    z-index: 100;
     width: 25%;
     bottom: 0;
     right: 0;
-    position: absolute;
 }
 
 .panel {
     margin-bottom: 0;
 }
 
-/* Пожалуйста, не оставляй css в таком виде... */
-
-#chat-bottom {
-    position: fixed;
-    bottom: 10px;
+.chat-title {
+    left: 0;
+}
+#user-name{
+    min-width: 120%;
+    height: 30px;
+    margin-bottom: 2%;
+    border-radius: 20px 20px 38px 0;
 }
 
+#user-text {
+    min-width: 120%;
+    margin-bottom: 2%;
+    border-radius: 20px 20px 38px 0;
+}
+#user-text, #user-name{
+    padding: 10px;
+    font-size: 30px;
+    margin-bottom: 2%;
+@include box-shadow(0 2 px 10 px rgba(0, 0, 0, .25) inset,
+0 2 px 10 px rgba(0, 0, 0, .25));
+@include border-radius(10 px);
+    background: rgba(255, 255, 255, .5);
+@include appearance(none);
+    outline: none;
+    color: #333;
+
+}
+
+.form-control:active{
+    border-color: #7ec0f8; /* Цвет границы */
+}
+
+#button-user {
+    min-width: 120%;
+    height: 30px;
+    margin-bottom: 2%;
+    display: inline-block;
+    font-size: 50%;
+    font-family: 'Hind', sans-serif;
+    color: rgba(255, 255, 255, .9);
+    text-shadow: #2e7ebd 0 1px 2px;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.1;
+    white-space: pre-line;
+    padding: .7em 0;
+    border: 1px solid;
+    border-color: #60a3d8 #2970a9 #2970a9 #60a3d8;
+    border-radius: 6px;
+    outline: none;
+    background: #60a3d8 linear-gradient(#89bbe2, #60a3d8 50%, #378bce);
+    box-shadow: inset rgba(255, 255, 255, .5) 1px 1px;
+}
+
+#button-user:first-line {
+    font-size: 170%;
+    font-weight: 700;
+}
+
+#button-user:hover {
+    color: rgb(255, 255, 255);
+    background-image: linear-gradient(#9dc7e7, #74afdd 50%, #378bce);
+}
+
+#button-user:active {
+    color: rgb(255, 255, 255);
+    border-color: #2970a9;
+    background-image: linear-gradient(#5796c8, #6aa2ce);
+    box-shadow: none;
+}
+
+.avatar {
+    width: 30%;
+    position: relative;
+}
+
+/* Пожалуйста, не оставляй css в таком виде... */
 .panel-body {
     overflow-y: scroll;
     height: 85%;
 }
-#name-input, #btn-input{
-    border-radius: 5px; /* Уголки */
 
-}
-#btn-input{
+#btn-input {
     border-radius: 0px 10px 10px 0;
     margin-bottom: 5px;
 }
-#name-input{
-    border-radius: 16px 10px 50px 0;
+
+#name-input {
     margin-top: 1%;
 }
-#btn-input{
+
+#btn-input {
     margin-top: 3%;
-    min-height:50px
+    min-height: 50px
 }
-#id{
+
+#id {
     margin-top: 1%;
     border-radius: 10px; /* Уголки */
 }
-.chat-window{
-    bottom:0;
-    position:fixed;
-    float:right;
-    margin-left:10px;
+
+.chat-window {
+    bottom: 0;
+    position: fixed;
+    float: right;
+    margin-left: 10px;
 }
-.chat-window > div > .panel{
+
+.chat-window > div > .panel {
     border-radius: 5px 5px 0 0;
 }
-.icon_minim{
-    padding:2px 10px;
+
+.icon_minim {
+    padding: 2px 10px;
 }
-.msg_container_base{
-  background: #e5e5e5;
-  margin: 0;
-  padding: 0 0 0;
-  max-height:300px;
-  overflow-x:hidden;
+
+.msg_container_base {
+    background: #e5e5e5;
+    margin: 0;
+    padding: 0 0 0;
+    max-height: 300px;
+    overflow-x: hidden;
 }
+
 .top-bar {
-  background: #666;
-  color: white;
-  padding: 10px;
-  position: relative;
-  overflow: hidden;
+    background: #666;
+    color: white;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
 }
-.msg_receive{
-    padding-left:0;
-    margin-left:0;
+
+.msg_receive {
+    padding-left: 0;
+    margin-left: 0;
 }
-.msg_sent{
-    padding-bottom:20px !important;
-    margin-right:0;
+
+.msg_sent {
+    padding-bottom: 20px !important;
+    margin-right: 0;
 }
+
 .messages {
-  background: white;
-  padding: 10px;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  max-width:100%;
+    background: white;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    max-width: 100%;
 }
+
 .messages > p {
     font-size: 13px;
     margin: 0 0 0.2rem 0;
-  }
+}
+
 .messages > time {
     font-size: 11px;
     color: #ccc;
 }
+
 .msg_container {
     margin: 7px;
     overflow: hidden;
     display: flex;
 }
+
 img {
     display: block;
     width: 100%;
 }
-.avatar {
-    position: relative;
-}
+
+
+
 .base_receive > .avatar:after {
     content: "";
     position: absolute;
@@ -114,9 +198,10 @@ img {
 }
 
 .base_sent {
-  justify-content: flex-end;
-  align-items: flex-end;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
+
 .base_sent > .avatar:after {
     content: "";
     position: absolute;
@@ -127,44 +212,45 @@ img {
     border: 5px solid white;
     border-right-color: transparent;
     border-top-color: transparent;
-    box-shadow: 1px 1px 2px rgba(black, 0.2); // not quite perfect but close
+    box-shadow: 1px 1px 2px rgba(black, 0.2);
+/ / not quite perfect but close
 }
 
-.msg_sent > time{
+.msg_sent > time {
     float: right;
 }
 
-
-
-.msg_container_base::-webkit-scrollbar-track
-{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+.msg_container_base::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #F5F5F5;
 }
 
-.msg_container_base::-webkit-scrollbar
-{
+.msg_container_base::-webkit-scrollbar {
     width: 12px;
     background-color: #F5F5F5;
 }
 
-.msg_container_base::-webkit-scrollbar-thumb
-{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+.msg_container_base::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #555;
 }
 
-.btn-group.dropup{
-    position:fixed;
-    left:0px;
-    bottom:0;
+.btn-group.dropup {
+    position: fixed;
+    left: 0px;
+    bottom: 0;
 }
-.name-input{
+
+
+
+.name-input {
     width: 80%;
 }
-.glyphicon-ok{
- max-height: 3px;
+
+.glyphicon-ok {
+    max-height: 3px;
 }
-.message_text{
+
+.message_text {
     word-wrap: break-word;
 }
