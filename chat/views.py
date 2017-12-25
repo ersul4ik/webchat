@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import time
+from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm

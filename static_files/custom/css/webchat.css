@@ -10,7 +10,9 @@
 .panel {
     margin-bottom: 0;
 }
-
+.input-group{
+    width: 100%;
+}
 .chat-title {
     left: 0;
 }
