@@ -17,20 +17,19 @@
     left: 0;
 }
 #user-name{
-    min-width: 120%;
+    min-width: 100%;
     height: 30px;
     margin-bottom: 2%;
     border-radius: 20px 20px 38px 0;
 }
 
 #user-text {
-    min-width: 120%;
+    min-width: 100%;
     margin-bottom: 2%;
     border-radius: 20px 20px 38px 0;
 }
 #user-text, #user-name{
     padding: 10px;
-    font-size: 30px;
     margin-bottom: 2%;
 @include box-shadow(0 2 px 10 px rgba(0, 0, 0, .25) inset,
 0 2 px 10 px rgba(0, 0, 0, .25));
@@ -47,7 +46,7 @@
 }
 
 #button-user {
-    min-width: 120%;
+    min-width: 100%;
     height: 30px;
     margin-bottom: 2%;
     display: inline-block;
