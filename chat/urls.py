@@ -28,6 +28,4 @@ urlpatterns = [
     url(r'messages/seen/$', views.messages_get_first, name='messages_get_first'),
     url(r'messages/receive/$', views.messages_following_get, name='messages_following_get'),
 
-    # тестовый
-    url(r'urmat/$', views.testing, name='testing'),
 ]

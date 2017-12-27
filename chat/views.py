@@ -104,10 +104,6 @@ def show_operator_room(request, operator_id):
     return render(request, 'management.html', locals())
 
 
-def testing(request):
-    return render(request, 'test.html', locals())
-
-
 def operator_drop(request, operator_id):
     User.objects.filter(id=operator_id, is_active=True).update(is_active=False)
     return HttpResponseRedirect("/management/operator/")
