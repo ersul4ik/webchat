@@ -16,8 +16,9 @@ EMAIL_HOST_USER = 'ersul4ik@mail.ru'
 EMAIL_HOST_PASSWORD = '1990sex10trash5012s52g61990'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
 # Деактивирует сессию если браузер закроется
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 DEBUG = env.get_value('DEBUG', default=False)
 
