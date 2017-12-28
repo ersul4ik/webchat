@@ -10,6 +10,9 @@
 .panel {
     margin-bottom: 0;
 }
+#form-title{
+    padding-left: 1%;
+}
 .input-group{
     width: 100%;
 }

@@ -2,9 +2,8 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Имя</th>
             <th>Пользователь</th>
-            <th>Последний вход</th>
+            <th>Имя</th>
         </tr>
         </thead>
         <tbody>
@@ -13,7 +12,6 @@
                 <tr>
                     <td><a href="{% url 'show_operator_room' operator.id %}">{{ operator }}</a></td>
                     <td>{{ operator.first_name }}</td>
-                    <td>{{ operator.last_login }}</td>
                 </tr>
             {% endif %}
         {% endfor %}
