@@ -169,7 +169,7 @@ if not DEBUG:
         'raven.contrib.django.raven_compat',
     ]
 
-    RAVEN_CONFIG = {
-        'dsn': 'https://04f8f2235e4240618582db8be0ee5b7f:cecb6460776f4b76be3aa09e62c8511c@sentry.io/252877',
-        'release': raven.fetch_git_sha(BASE_DIR),
-    }
+    # RAVEN_CONFIG = {
+    #     'dsn': 'https://04f8f2235e4240618582db8be0ee5b7f:cecb6460776f4b76be3aa09e62c8511c@sentry.io/252877',
+    #     'release': raven.fetch_git_sha(BASE_DIR),
+    # }
