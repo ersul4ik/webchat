@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  app:
+    image: aastashov/webchat:latest
+    container_name: webchat-app
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - /opt/webchat/:/opt/webchat/
+    restart: always
+    depends_on:
+      - srv
+      - db
+    networks:
+      - webchat
+
+  srv:
+    image: nginx:latest
+    container_name: webchat-srv
+    volumes:
+      - ./volumes/nginx.conf:/etc/nginx/conf.d/default.conf
+      - /opt/webchat/:/opt/webchat/
+    ports:
+      - "80:80"
+    restart: always
+
+  db:
+    image: postgres:9.6.6
+    container_name: webchat-db
+    env_file:
+      - .env
+    volumes:
+      - /opt/webchat/postgresql/data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - webchat
+
+networks:
+  webchat:
+    external: True
