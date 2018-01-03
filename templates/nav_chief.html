@@ -9,9 +9,9 @@
                 <span class="icon-bar"></span>
             </button>
             {% if request.user.is_staff %}
-            <a class="navbar-brand" href="/supervisor/">Чат-помощник</a>
+                <a class="navbar-brand" href="/supervisor/">Чат-помощник</a>
             {% else %}
-            <a class="navbar-brand" href="/management/">Чат-помощник</a>
+                <a class="navbar-brand" href="/management/">Чат-помощник</a>
             {% endif %}
         </div>
 
@@ -32,8 +32,12 @@
                             <li><a href="/register/">Регистрация операторов</a></li>
                             <li><a href="{% url 'show_operators' %}">Операторы</a></li>
                         {% endif %}
+                        <li><a href="#" id="dnperm">Принимать уведомления</a></li>
                         <li><a href="{% url 'logout' %}">Выйты</a></li>
                     </ul>
+                    <script>
+
+                    </script>
                 </div>
             </div>
         </form>

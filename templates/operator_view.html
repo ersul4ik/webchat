@@ -1,0 +1,20 @@
+<div class="col-md-12 oper-table">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Пользователь</th>
+            <th>Имя</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for operator in all_operators %}
+            {% if operator.has_usable_password %}
+                <tr>
+                    <td><a href="{% url 'show_operator_room' operator.id %}">{{ operator }}</a></td>
+                    <td>{{ operator.first_name }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

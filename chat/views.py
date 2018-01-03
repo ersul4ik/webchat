@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import time
+from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -101,10 +102,6 @@ def show_operator_room(request, operator_id):
     operator_detail = User.objects.filter(id=operator_id)
     dialog = Dialog.objects.filter(manager=operator_id).count()
     return render(request, 'management.html', locals())
-
-
-def testing(request):
-    return render(request, 'test.html', locals())
 
 
 def operator_drop(request, operator_id):

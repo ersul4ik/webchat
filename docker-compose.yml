@@ -13,8 +13,6 @@ services:
     depends_on:
       - srv
       - db
-#    entrypoint: python /srv/webchat/manage.py migrate
-#    command: uwsgi --ini /etc/uwsgi/sites/webchat.ini --chmod-socket --stats /tmp/webchat-statsock
     networks:
       - webchat
 
