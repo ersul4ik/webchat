@@ -9,6 +9,7 @@ services:
       - .env
     volumes:
       - /opt/webchat/:/opt/webchat/
+      - /opt/webchat/static/:/srv/webchat/static/
     restart: always
     depends_on:
       - srv

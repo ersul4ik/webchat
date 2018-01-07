@@ -148,18 +148,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
-    # На проде статика раздается отюда
-    os.path.join(BASE_DIR, 'static', 'custom'),
-    os.path.join(BASE_DIR, 'static', 'vendor'),
-
-    # В дебаге статика раздается отюда
     os.path.join(BASE_DIR, 'static_files', 'custom'),
     os.path.join(BASE_DIR, 'static_files', 'vendor'),
 )
 
 # Если дебаг отключен, включаем sentry
 if not DEBUG:
-    import raven
+    # import raven
     MIDDLEWARE += [
         'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
         'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
@@ -168,3 +163,8 @@ if not DEBUG:
     INSTALLED_APPS += [
         'raven.contrib.django.raven_compat',
     ]
+
+    RAVEN_CONFIG = {
+        'dsn': 'https://04f8f2235e4240618582db8be0ee5b7f:cecb6460776f4b76be3aa09e62c8511c@sentry.io/252877',
+        # 'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
+    }
