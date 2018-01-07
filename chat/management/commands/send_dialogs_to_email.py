@@ -7,11 +7,7 @@ from django.core.mail import send_mail
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        persons = User.objects.all()
-        emails = []
-        for person in persons:
-            if person.email != '':
-                emails.append(str(person.email))
+        emails = User.objects.exclude(email__exact="").values_list('email', flat=True)
         dialogs = Dialog.objects.filter(is_active=False)
         for dialog in dialogs:
             title = u'{} и {}'.format(dialog.client.first_name, dialog.manager)

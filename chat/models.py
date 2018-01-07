@@ -31,10 +31,12 @@ class Dialog(models.Model):
     def get_dialog_title(self):
         host_name = self.host_name
         company = ''
-        if host_name == '127.0.0.1:8000':
+        if host_name == 'www.my4g.kg':
             company = 'GAT'
-        elif host_name == '127.0.0.2:8000':
+        elif host_name == 'www.snt.kg':
             company = 'SNT'
+        else:
+            company = 'БОМЖ'
         return 'Чат c "{} {}"'.format(self.client.first_name, company)
 
     def get_dialog_detail(self):
