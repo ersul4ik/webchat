@@ -9,6 +9,6 @@ from chat import views
 urlpatterns = [
     url(r'^chief/', admin.site.urls),
     url(r'^', include('chat.urls')),
-    url(r'^register/$', views.RegisterFormView.as_view()),
+    url(r'^register/$', views.register),
     url(r'^login/$', views.LoginFormView.as_view()),
 ]

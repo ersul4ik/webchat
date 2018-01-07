@@ -11,8 +11,6 @@ COPY ./volumes/uwsgi.ini /etc/uwsgi/sites/webchat.ini
 
 RUN mkdir -p /srv/webchat/static/custom/ && mkdir -p /srv/webchat/static/vendor/
 
-RUN python /srv/webchat/manage.py collectstatic --noinput
-
 ENTRYPOINT ["/srv/webchat/volumes/entrypoint.sh"]
 
 CMD ["uwsgi", "--ini", "/etc/uwsgi/sites/webchat.ini", "--chmod-socket", "--stats", "/tmp/webchat-statsock"]

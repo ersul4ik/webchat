@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import time
-from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -15,8 +14,22 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.edit import FormView
 from django.shortcuts import render, get_object_or_404, redirect
 
-from chat.forms import MessageForm
+from chat.forms import MessageForm, CustomUserCreationForm
 from chat.models import Dialog, Message
+
+
+def register(request):
+    if request.method == 'POST':
+        f = CustomUserCreationForm(request.POST)
+        if f.is_valid():
+            f.save()
+            messages.success(request, 'Account created successfully')
+            return redirect('logout')
+
+    else:
+        f = CustomUserCreationForm()
+
+    return render(request, 'register.html', {'form': f})
 
 
 class RegisterFormView(FormView):
@@ -140,7 +153,7 @@ def messages_get_first(request):
     for d in dialog:
         if not d.manager:
             context += render_to_string('message_list.html', locals())
-            time.sleep(5)
+            # time.sleep(5)
             dialog.update(unexplored=False)
             Message.objects.filter(seen=False).update(seen=True)
     return HttpResponse(context)
@@ -183,7 +196,8 @@ def client_dialog(request):
     if 'create' in request.GET:
         if user.is_anonymous:
             user = create_user(request)
-        dialog, _ = Dialog.objects.get_or_create(client=user, is_active=True)
+        host_name = request.get_host()
+        dialog, _ = Dialog.objects.get_or_create(client=user, host_name=host_name, is_active=True)
         initial = {'dialog': dialog.id, 'sender': user.id, 'body': request.POST.get('body', '')}
         request.POST = initial
         return message_create(request)

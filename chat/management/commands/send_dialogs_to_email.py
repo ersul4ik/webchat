@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from chat.models import Dialog
+from chat.models import Dialog, User
 from django.core.mail import send_mail
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        persons = User.objects.all()
+        emails = []
+        for person in persons:
+            if person.email != '':
+                emails.append(str(person.email))
         dialogs = Dialog.objects.filter(is_active=False)
         for dialog in dialogs:
             title = u'{} и {}'.format(dialog.client.first_name, dialog.manager)
@@ -14,4 +19,5 @@ class Command(BaseCommand):
             message = ''
             for mess in messages:
                 message += u'{} - {}'.format(mess.sender, mess.body) + u'\n'
-            send_mail(title, message, settings.EMAIL_HOST_USER, ['ersul4ik@mail.ru'], fail_silently=True)
+            print(title, message)
+            send_mail(title, message, settings.EMAIL_HOST_USER, emails, fail_silently=True)

@@ -11,6 +11,7 @@ from django.utils.translation import ugettext as _
 class Dialog(models.Model):
     client = models.ForeignKey(User, verbose_name=_('Client'), related_name='dialogs')
     manager = models.ForeignKey(User, verbose_name=_('Manager'), null=True, blank=True)
+    host_name = models.CharField(max_length=120, null=True, blank=True)
     unexplored = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
 
@@ -28,11 +29,23 @@ class Dialog(models.Model):
         return '{}'.format(self.manager.first_name)
 
     def get_dialog_title(self):
-        return 'Чат c "{}"'.format(self.client.first_name)
+        host_name = self.host_name
+        company = ''
+        if host_name == '127.0.0.1:8000':
+            company = 'GAT'
+        elif host_name == '127.0.0.2:8000':
+            company = 'SNT'
+        return 'Чат c "{} {}"'.format(self.client.first_name, company)
 
     def get_dialog_detail(self):
+        host_name = self.host_name
+        company = ''
+        if host_name == '127.0.0.1:8000':
+            company = 'GAT'
+        elif host_name == '127.0.0.2:8000':
+            company = 'SNT'
         manager = self.manager.first_name
-        return '{} и {}'.format(self.client.first_name, manager)
+        return '{} и {} - {}'.format(self.client.first_name, manager, company)
 
 
 class Message(models.Model):

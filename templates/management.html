@@ -26,7 +26,7 @@
                         <li class="list-group-item active">Онлайн - чаты</li>
                         {% for d in read_dialogs %}
                             <a href="{% url 'dialog' d.id %}"
-                               class="list-group-item" id="dialogs">{{ d.get_dialog_detail| truncatechars_html:20 }}</a>
+                               class="list-group-item" id="dialogs">{{ d.get_dialog_detail| truncatechars_html:30 }}</a>
                         {% endfor %}
                     </div>
                     <div class="not-view">
@@ -35,7 +35,7 @@
                             {% for m in not_read_dialogs %}
                                 <a href="{% url 'dialog' m.id %}"
                                    class="list-group-item"
-                                   id="message-receive">{{ m.get_dialog_title | truncatechars_html:20 }}</a>
+                                   id="message-receive">{{ m.get_dialog_title | truncatechars_html:30 }}</a>
                             {% endfor %}
                         </div>
                     </div>
