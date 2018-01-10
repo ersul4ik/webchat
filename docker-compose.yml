@@ -38,6 +38,14 @@ services:
     networks:
       - webchat
 
+  cert:
+    image: aastashov/certbot:latest
+    build: volumes/certbot
+    command: certonly -d webchat.retus.space --webroot --webroot-path /var/www/ --agree-tos --force-renewal --email alexander.astashov.vl@gmail.com
+    volumes:
+      - /opt/webchat/certbot-www:/var/www/
+      - /opt/webchat/certbot-certs:/etc/letsencrypt
+
 networks:
   webchat:
     external: True
