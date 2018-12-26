@@ -9,20 +9,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Деактивирует сессию если браузер закроется
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SECRET_KEY = 'kc6plb5r=fx*n0o-msw+!v3ik@iq%=-s_$6^s1f2f(xd@4mos#'
-
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_HOST_USER = 'ersul4ik@mail.ru'
-EMAIL_HOST_PASSWORD = '1990sex10trash5012s52g61990'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+SECRET_KEY = env.get_value('WEBCHAT_SECRET_KEY', default='hhh')
 
 DEBUG = env.get_value('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 LOGIN_URL = '/login/'
 
@@ -165,6 +159,5 @@ if not DEBUG:
     ]
 
     RAVEN_CONFIG = {
-        'dsn': 'https://04f8f2235e4240618582db8be0ee5b7f:cecb6460776f4b76be3aa09e62c8511c@sentry.io/252877',
-        # 'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
+        'dsn': 'test',
     }
